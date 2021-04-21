@@ -20,7 +20,7 @@
 
 package eu.europa.ec.dgc.verifier.service;
 
-import eu.europa.ec.dgc.gateway.config.DgcConfigProperties;
+import eu.europa.ec.dgc.verifier.config.DgcConfigProperties;
 import eu.europa.ec.dgc.verifier.entity.TrustedPartyEntity;
 import eu.europa.ec.dgc.verifier.repository.TrustedPartyRepository;
 import eu.europa.ec.dgc.verifier.utils.DgcMdc;

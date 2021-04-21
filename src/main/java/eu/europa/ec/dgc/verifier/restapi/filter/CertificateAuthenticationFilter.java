@@ -20,7 +20,7 @@
 
 package eu.europa.ec.dgc.verifier.restapi.filter;
 
-import eu.europa.ec.dgc.gateway.config.DgcConfigProperties;
+import eu.europa.ec.dgc.verifier.config.DgcConfigProperties;
 import eu.europa.ec.dgc.verifier.entity.TrustedPartyEntity;
 import eu.europa.ec.dgc.verifier.service.TrustedPartyService;
 import eu.europa.ec.dgc.verifier.utils.DgcMdc;
