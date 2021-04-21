@@ -20,11 +20,11 @@
 
 package eu.europa.ec.dgc.verifier.service;
 
+import eu.europa.ec.dgc.utils.CertificateUtils;
 import eu.europa.ec.dgc.verifier.config.DgcConfigProperties;
 import eu.europa.ec.dgc.verifier.entity.TrustedPartyEntity;
 import eu.europa.ec.dgc.verifier.repository.TrustedPartyRepository;
 import eu.europa.ec.dgc.verifier.utils.DgcMdc;
-import eu.europa.ec.dgc.utils.CertificateUtils;
 import java.io.IOException;
 import java.io.StringReader;
 import java.security.InvalidKeyException;

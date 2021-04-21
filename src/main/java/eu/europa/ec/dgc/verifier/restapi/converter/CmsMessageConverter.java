@@ -1,7 +1,7 @@
 package eu.europa.ec.dgc.verifier.restapi.converter;
 
-import eu.europa.ec.dgc.verifier.restapi.dto.SignedCertificateDto;
 import eu.europa.ec.dgc.signing.SignedCertificateMessageParser;
+import eu.europa.ec.dgc.verifier.restapi.dto.SignedCertificateDto;
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpInputMessage;
