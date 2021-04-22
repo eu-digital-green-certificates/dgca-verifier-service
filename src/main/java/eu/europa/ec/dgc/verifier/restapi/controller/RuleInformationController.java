@@ -36,10 +36,10 @@ public class RuleInformationController {
 
     @GetMapping(path = "/ruleStatus")
     public ResponseEntity<String> getRuleStatus(
-            @RequestHeader(X_RULEID_HEADER) Integer kId
+            @RequestHeader(X_RULEID_HEADER) Integer kid
     ) {
 
-        log.info("Key Identifier: {}", kId.toString());
+        log.info("Key Identifier: {}", kid.toString());
 
         return ResponseEntity.ok("ruleStatus");
     }
