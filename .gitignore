@@ -41,3 +41,6 @@ build/
 /tools/*
 !/tools/*.bat
 !/tools/*.sh
+
+### MAC OS ###
+.DS_STORE

@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -20,82 +21,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/signerInformation")
+@RequestMapping("/")
 @Slf4j
 public class SignerInformationController {
 
-    private static final String X_DGC_HASH_HEADER = "X-DGC-HASH";
+    private static final String X_RESUME_TOKEN_HEADER = "X-RESUME-TOKEN";
+    private static final String X_KID_HEADER ="X-KID";
+
 
     /**
-     * Http Method for publishing new signer information.
+     * Http Method for getting signer certificate.
      */
-    @PostMapping(path = "/", consumes = CmsMessageConverter.CONTENT_TYPE_CMS_VALUE)
-    @Operation(
-        summary = "Publishes Signer Information of a trusted Issuer",
-        tags = {"Signer Information"},
-        parameters = {
-            @Parameter(
-                in = ParameterIn.HEADER,
-                name = HttpHeaders.CONTENT_TYPE,
-                required = true,
-                schema = @Schema(type = "string"),
-                example = CmsMessageConverter.CONTENT_TYPE_CMS_VALUE),
-            @Parameter(
-                in = ParameterIn.HEADER,
-                name = X_DGC_HASH_HEADER,
-                required = true,
-                schema = @Schema(type = "string", format = "SHA256"),
-                example = "82f231898694e893389f7fc7f0d4b2ae1ddfb69e")
-        },
-        requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-            required = true,
-            description = "Request body with payload. (limited)",
-            content = @Content(
-                mediaType = CmsMessageConverter.CONTENT_TYPE_CMS_VALUE,
-                schema = @Schema(implementation = SignedCertificateDto.class))
-        ),
-        responses = {
-            @ApiResponse(
-                responseCode = "201",
-                description = "Verification Information was created successfully."),
-            @ApiResponse(
-                responseCode = "401",
-                description = "Unauthorized. No Access to the system. (Client Certificate not present or whitelisted)",
-                content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = ProblemReportDto.class)
-                )),
-            @ApiResponse(
-                responseCode = "403",
-                description = "Forbidden. Verification Information package is not accepted. (hash Value or signature"
-                    + " wrong, client certificate matches not to the signer of the package)",
-                content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = ProblemReportDto.class))),
-            @ApiResponse(
-                responseCode = "406",
-                description = "Content is not acceptable. (Wrong Format, no CMS, not the correct signing alg,"
-                    + " missing attributes etc.)",
-                content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = ProblemReportDto.class))),
-            @ApiResponse(
-                responseCode = "409",
-                description = "Conflict. Chosen UUID is already used. Please choose another one.",
-                content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = ProblemReportDto.class)))
-        }
-    )
-    public ResponseEntity<Void> postVerificationInformation(
-        @RequestBody SignedCertificateDto cms,
-        @RequestHeader(X_DGC_HASH_HEADER) String hash
+
+    @GetMapping(path = "/signercertificateUpdate")
+    public ResponseEntity<String> getSignerCertificateUpdate(
+            @RequestHeader(X_RESUME_TOKEN_HEADER) Integer resumeToken
     ) {
 
-        log.info("Signer Cert: {}", cms.getSignerCertificate().getSubject().toString());
-        log.info("Payload Cert: {}", cms.getPayloadCertificate().getSubject().toString());
+        log.info("Resume token: {}", resumeToken.toString());
 
-        return ResponseEntity.status(201).build();
+        return ResponseEntity.ok("signercertificateUpdate");
+    }
+
+
+    /**
+     * Http Method for getting status update for key identifier.
+     */
+
+    @GetMapping(path = "/signercertificateStatus")
+    public ResponseEntity<String> getSignerCertificateStatus(
+            @RequestHeader(X_KID_HEADER) Integer kId
+    ) {
+
+        log.info("Key Identifier: {}", kId.toString());
+
+        return ResponseEntity.ok("signercertificateStatus");
     }
 
 }

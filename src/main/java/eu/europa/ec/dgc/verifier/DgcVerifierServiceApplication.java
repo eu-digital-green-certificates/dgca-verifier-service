@@ -32,7 +32,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 /**
  * The Application class.
  */
-@SpringBootApplication(scanBasePackages = {"eu.europa.ec.dgc","eu.europa.ec.dgc.verifier"})
+@SpringBootApplication
 @EnableConfigurationProperties(DgcConfigProperties.class)
 @OpenAPIDefinition(
     info = @Info(
