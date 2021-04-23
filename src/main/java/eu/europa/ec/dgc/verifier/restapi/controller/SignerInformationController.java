@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.Base64;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 @RestController
 @RequestMapping("/")
@@ -128,13 +130,18 @@ public class SignerInformationController {
     /**
      * Http Method for getting status update for key identifier.
      */
+    @GetMapping(path = "/signercertificateStatus")
+    public ResponseEntity<ArrayList> getSignerCertificateStatus() {
+        ArrayList<String> validIds =  new ArrayList<String>();
 
-    @GetMapping(path = "/signercertificateStatus", produces = {"application/json"})
-    public ResponseEntity<String> getSignerCertificateStatus() {
+        try {
+            validIds.add(certificateUtils.getCertKid(convertStringToX509Cert(EDGC_DEV_TEST_CERT)));
+            validIds.add(certificateUtils.getCertKid(convertStringToX509Cert(EDGC_DEV_DE_CERT)));
+        } catch (CertificateException e) {
+            log.error("Failed to get kid from cert. Exception: {}", e);
+        }
 
-
-
-        return ResponseEntity.ok("signercertificateStatus");
+        return ResponseEntity.ok(validIds);
     }
 
 }
