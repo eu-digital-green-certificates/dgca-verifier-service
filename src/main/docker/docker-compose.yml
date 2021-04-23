@@ -17,7 +17,7 @@ services:
   backend:
     build: .
     image: eu-digital-green-certificates/dgc-verifier-service
-    container_name: dgc-gateway-backend
+    container_name: dgc-verifier-service-backend
     volumes:
       - ./certs:/ec/prod/app/san/dgc
     ports:
