@@ -1,18 +1,19 @@
-name: CI Pull Request
+name: Dependency Check (OWASP)
 on:
-  pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
+  schedule:
+    - cron: '32 05 * * 0' # Each Sunday at 05:32 UTC
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-java@v2
+      - name: Setup Java
+        uses: actions/setup-java@v2
         with:
           java-version: '11'
           distribution: 'adopt'
@@ -27,5 +28,5 @@ jobs:
                 "password": "${{ secrets.GPR_PAT }}"
               }
             ]
-      - name: Build package
-        run: mvn --batch-mode package
+      - name: Execute Dependency Check
+        run: mvn --batch-mode dependency-check:check
