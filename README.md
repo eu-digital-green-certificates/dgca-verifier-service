@@ -17,13 +17,17 @@
   <a href="#licensing">Licensing</a>
 </p>
 
-- [ ] TODO
+## About
+
+This repository contains the source code of the Digital Green Certificates Verifier Service.
+
+The DGC Verifier Service is part of the national backends and caches the public keys that are distributed through the [DGCG](https://github.com/eu-digital-green-certificates/dgc-gateway). It is accessed by the DGC Verifier Apps ([Android](https://github.com/eu-digital-green-certificates/dgca-verifier-app-android), [iOS](https://github.com/eu-digital-green-certificates/dgca-verifier-app-ios)) to update the key store periodically.
 
 ## Development
 
 ### Prerequisites
 
-- [ ] TODO
+- [ ] TODO: Describe prerequisites
 
 ### Build
 
@@ -31,21 +35,14 @@ Whether you cloned or downloaded the 'zipped' sources you will either find the s
 
 In either case open a terminal pointing to the directory you put the sources in. The local build process is described afterwards depending on the way you choose.
 
-#### XYZ (Maven, ...) based build
+#### XYZ (Maven, Docker ...) based build
 
-- [ ] TODO
-
-#### Build Docker Image
-
-- [ ] TODO
-
-#### API documentation  
-
-- [ ] TODO
+- [ ] TODO: Add instructions for different build types
 
 ## Documentation  
 
-- [ ] TODO
+- [ ] TODO: Link to documentation
+
 
 ## Support and feedback
 
