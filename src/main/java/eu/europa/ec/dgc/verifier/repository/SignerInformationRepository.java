@@ -20,16 +20,22 @@
 
 package eu.europa.ec.dgc.verifier.repository;
 
-import eu.europa.ec.dgc.verifier.entity.TrustedPartyEntity;
+
+import eu.europa.ec.dgc.verifier.entity.SignerInformationEntity;
+import eu.europa.ec.dgc.verifier.restapi.dto.KidDto;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TrustedPartyRepository extends JpaRepository<TrustedPartyEntity, Long> {
 
-    Optional<TrustedPartyEntity> getFirstByThumbprintAndCountryAndCertificateType(
-        String thumbprint, String country, TrustedPartyEntity.CertificateType type);
 
-    Optional<TrustedPartyEntity> getFirstByThumbprintAndCertificateType(
-        String thumbprint, TrustedPartyEntity.CertificateType type);
+public interface SignerInformationRepository extends JpaRepository<SignerInformationEntity, Long> {
+
+    Optional<SignerInformationEntity> findFirstByIdIsNotNullOrderByIdAsc();
+
+    Optional<SignerInformationEntity> findFirstByIdGreaterThanOrderByIdAsc(
+            Long id);
+
+    Optional<List<KidDto>> findAllByOrderByIdAsc();
 
 }

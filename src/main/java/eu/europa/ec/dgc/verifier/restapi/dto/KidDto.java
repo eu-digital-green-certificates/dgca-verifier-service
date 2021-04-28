@@ -17,15 +17,20 @@
  * limitations under the License.
  * ---license-end
  */
+package eu.europa.ec.dgc.verifier.restapi.dto;
 
-package eu.europa.ec.dgc.verifier.restapi.filter;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.Value;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+@Schema(
+        name = "kid",
+        type = "string",
+        example = "8xYtW2837fc="
+)
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface CertificateAuthenticationRequired {
+@Data
+@Value
+public class KidDto {
+        String kid;
 }

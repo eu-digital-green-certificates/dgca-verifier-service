@@ -31,11 +31,19 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Data
+@Getter
+@Setter
 @Entity
 @Table(name = "signer_information")
+@AllArgsConstructor
+@NoArgsConstructor
 public class SignerInformationEntity {
 
     @Id
@@ -56,40 +64,21 @@ public class SignerInformationEntity {
     private ZonedDateTime createdAt = ZonedDateTime.now();
 
     /**
-     * Timestamp of the last Record change.
+     * SHA-256 Thumbprint of the certificate (hex encoded).
      */
-    @Column(name = "timestamp_updated")
-    private ZonedDateTime updatedAt;
+    @Column(name = "thumbprint", nullable = false, length = 64)
+    private String thumbprint;
 
     /**
-     * Signed Object.
+     * Signature of the TrustAnchor.
      */
-    @Lob
-    @Basic(fetch = FetchType.EAGER)
-    @Column(name = "information_object", length = 5000, nullable = false)
-    private byte[] informationObject;
+    @Column(name = "signature", nullable = false, length = 1000)
+    String signature;
 
     /**
-     * Revoked status, default false.
+     * Base64 encoded certificate raw data.
      */
-    @Column(name = "revoked", nullable = false)
-    private boolean revoked = false;
+    @Column(name = "raw_data", nullable = false, length = 4096)
+    String rawData;
 
-    /**
-     * Certificate thumbprint of creator.
-     */
-    @Column(name = "owner", length = 64)
-    private String owner;
-
-    /**
-     * Version of the uploaded object.
-     */
-    @Column(name = "version", nullable = false)
-    private int version = 0;
-
-    @PreUpdate
-    private void preUpdate() {
-        updatedAt = ZonedDateTime.now();
-        version++;
-    }
 }
