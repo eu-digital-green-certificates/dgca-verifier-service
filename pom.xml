@@ -9,7 +9,7 @@
   <version>1.0.0-SNAPSHOT</version>
   <packaging>${packaging.format}</packaging>
 
-  <name>dgc-verifier-service</name>
+  <name>dgca-verifier-service</name>
   <description>European Digital Green Certificate Verifier Service project.</description>
   <organization>
     <name>T-Systems International GmbH</name>
