@@ -64,18 +64,6 @@ public class SignerInformationEntity {
     private ZonedDateTime createdAt = ZonedDateTime.now();
 
     /**
-     * SHA-256 Thumbprint of the certificate (hex encoded).
-     */
-    @Column(name = "thumbprint", nullable = false, length = 64)
-    private String thumbprint;
-
-    /**
-     * Signature of the TrustAnchor.
-     */
-    @Column(name = "signature", nullable = false, length = 1000)
-    String signature;
-
-    /**
      * Base64 encoded certificate raw data.
      */
     @Column(name = "raw_data", nullable = false, length = 4096)
