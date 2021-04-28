@@ -17,6 +17,7 @@
  * limitations under the License.
  * ---license-end
  */
+
 package eu.europa.ec.dgc.verifier.restapi.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -32,5 +33,5 @@ import lombok.Value;
 @Data
 @Value
 public class KidDto {
-        String kid;
+    String kid;
 }

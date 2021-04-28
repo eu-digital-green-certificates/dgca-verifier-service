@@ -38,15 +38,6 @@ public class SignerInformationService {
 
     private final SignerInformationRepository signerInformationRepository;
 
-    /**
-     * Method to query the db for the first certificate.
-     *
-     * @return Optional holding the certificate if found.
-     */
-    public Optional<SignerInformationEntity> getFirstCertificate() {
-
-        return signerInformationRepository.findFirstByIdIsNotNullOrderByIdAsc();
-    }
 
     /**
      * Method to query the db for a certificate with a resume token.
@@ -62,6 +53,12 @@ public class SignerInformationService {
         }
     }
 
+
+    /**
+     * Method to query the db for a list of kid from all certificates.
+     *
+     * @return A list of kids of all certificates found. If no certificate was found an empty list is returned.
+     */
     public List<String> getListOfValidKids() {
         ArrayList<String> responseArray = new ArrayList<>();
 
