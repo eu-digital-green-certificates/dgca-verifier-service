@@ -34,4 +34,4 @@ jobs:
       - name: Build docker image
         run: docker build target/docker --file target/docker/Dockerfile --tag docker.pkg.github.com/${{ github.repository }}/backend:latest
       - name: Push docker image
-        run: docker push docker.pkg.github.com/${{ github.repository }}/backend:latest
+        run: docker push docker.pkg.github.com/${{ github.repository }}/dgca-verifier-service:latest
