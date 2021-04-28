@@ -1,6 +1,6 @@
 /*-
  * ---license-start
- * EU Digital Green Certificate Gateway Service / dgc-gateway
+ * eu-digital-green-certificates / dgca-verifier-service
  * ---
  * Copyright (C) 2021 T-Systems International GmbH and all other contributors
  * ---

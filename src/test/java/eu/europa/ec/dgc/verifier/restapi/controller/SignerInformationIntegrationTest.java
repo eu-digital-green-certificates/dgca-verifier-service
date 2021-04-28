@@ -20,12 +20,9 @@
 
 package eu.europa.ec.dgc.verifier.restapi.controller;
 
-import eu.europa.ec.dgc.verifier.entity.SignerInformationEntity;
 import eu.europa.ec.dgc.verifier.repository.SignerInformationRepository;
 import eu.europa.ec.dgc.verifier.testdata.SignerInformationTestHelper;
 import java.io.UnsupportedEncodingException;
-import java.util.Optional;
-import org.junit.ComparisonFailure;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,8 +32,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
