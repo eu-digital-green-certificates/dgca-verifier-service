@@ -18,14 +18,18 @@
  * ---license-end
  */
 
-package eu.europa.ec.dgc.verifier.restapi.filter;
+package eu.europa.ec.dgc.verifier.restapi.dto;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Value;
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface CertificateAuthenticationRequired {
+@Schema(
+        name = "kid",
+        type = "string",
+        example = "8xYtW2837fc="
+)
+
+@Value
+public class KidDto {
+    String kid;
 }
