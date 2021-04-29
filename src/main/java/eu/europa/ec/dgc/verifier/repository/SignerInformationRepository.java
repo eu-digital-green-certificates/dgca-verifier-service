@@ -28,7 +28,6 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-
 public interface SignerInformationRepository extends JpaRepository<SignerInformationEntity, Long> {
 
     Optional<SignerInformationEntity> findFirstByIdIsNotNullOrderByIdAsc();
@@ -37,5 +36,7 @@ public interface SignerInformationRepository extends JpaRepository<SignerInforma
             Long id);
 
     Optional<List<KidDto>> findAllByOrderByIdAsc();
+
+    void deleteByKidNotIn(List<String> kids);
 
 }
