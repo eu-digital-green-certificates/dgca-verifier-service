@@ -21,7 +21,6 @@
 package eu.europa.ec.dgc.verifier.restapi.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
 import lombok.Value;
 
 @Schema(
@@ -30,7 +29,6 @@ import lombok.Value;
         example = "8xYtW2837fc="
 )
 
-@Data
 @Value
 public class KidDto {
     String kid;
