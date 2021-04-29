@@ -22,6 +22,7 @@ package eu.europa.ec.dgc.verifier.testdata;
 
 import eu.europa.ec.dgc.utils.CertificateUtils;
 import eu.europa.ec.dgc.verifier.entity.SignerInformationEntity;
+import eu.europa.ec.dgc.verifier.mock.TrustListItem;
 import eu.europa.ec.dgc.verifier.repository.SignerInformationRepository;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -54,6 +55,8 @@ public class SignerInformationTestHelper {
             + "usTEZL0Yxa4Ot4Gb6+VK7P34olH7pFcBFYfh6DyOESV9uglrE4kdOQ7+x+yS5zR/"
             + "UTeEfM4mW4I2QIEreUN8Jg==";
 
+    public static final String TEST_CERT_1_KID = "8xYtW2837ac=";
+
     public static final String TEST_CERT_2_STR =
         "MIIBGzCBwqADAgECAgRggUObMAoGCCqGSM49BAMCMBYxFDASBgNVBAMMC2VkZ2Nf"
             + "ZGV2X2VjMB4XDTIxMDQyMjA5MzYyN1oXDTIyMDQyMjA5MzYyN1owFjEUMBIGA1UE"
@@ -61,6 +64,8 @@ public class SignerInformationTestHelper {
             + "s/Jn0CBSq/AWuxmqUzRVu+AsCe6gfbqk3s0e4jonzp5v/5IMW/9t7v5Fu2ITMmOT"
             + "VfKL1TuM+aixMAoGCCqGSM49BAMCA0gAMEUCIQCGWIk6ZET3afRxdpFVuXdrEYtF"
             + "iR1MGDx4HweZfspjSgIgBdCJsT746/FI3euIbzKDoeY65m+Qx2/4Cd/vOayNbuw=";
+
+    public static final String TEST_CERT_2_KID = "EzVuT0kOpJc=";
 
     public static final String TEST_CERT_3_STR =
         "MIIDqDCCAhCgAwIBAgIEYIFDEjANBgkqhkiG9w0BAQsFADAWMRQwEgYDVQQDDAtl"
@@ -83,6 +88,8 @@ public class SignerInformationTestHelper {
             + "n76oTgJaXN/CQDLm2yzOX/ynt4t0ycqcVYrzewiKY2Fpnhao4U00vrh+0lwdUFr3"
             + "jpOMeNg/2UDYhpWwWiT1ik+D6PSfKQ7Amuph6VcYEy/grQxNxPWcghoZSVKdXhOz"
             + "6ggdK/eFNlO1aYj/DLxV3ZWcrAYk6dS4rnn8Ow==";
+
+    public static final String TEST_CERT_3_KID = "zoQi+KTb8LM=";
 
     private final SignerInformationRepository signerInformationRepository;
     private final CertificateUtils certificateUtils;
@@ -114,4 +121,19 @@ public class SignerInformationTestHelper {
         return cert.getId();
     }
 
+    public TrustListItem createTrustListItem(String certStr) {
+        String kid;
+        try {
+            kid = certificateUtils.getCertKid(convertStringToX509Cert(certStr));
+        }catch (CertificateException e) {
+            kid = "kid_"+ ZonedDateTime.now();
+        }
+
+        TrustListItem item = new TrustListItem();
+        item.setKid(kid);
+        item.setTimestamp(ZonedDateTime.now());
+        item.setRawData(certStr);
+
+        return item;
+    }
 }
