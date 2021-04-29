@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Component
@@ -82,12 +83,18 @@ public class SignerInformationService {
      * @param trustedCerts defines the list of trusted certificates.
      *
      */
+    @Transactional
     public void updateTrustedCertsList(List<TrustListItem> trustedCerts) {
 
         List<String> trustedCertsKids = trustedCerts.stream().map(TrustListItem::getKid).collect(Collectors.toList());
         List<String> alreadyStoredCerts = getListOfValidKids();
 
-        signerInformationRepository.deleteByKidNotIn(trustedCertsKids);
+        if (trustedCertsKids.size() == 0) {
+            signerInformationRepository.deleteAll();
+        } else {
+            signerInformationRepository.deleteByKidNotIn(trustedCertsKids);
+        }
+
 
         for (TrustListItem cert : trustedCerts) {
             if (!alreadyStoredCerts.contains(cert.getKid())) {
@@ -96,6 +103,15 @@ public class SignerInformationService {
         }
     }
 
+    /**
+     * Method adds a new SignerInformationEntity to the db.
+     *
+     * @param kid defines the kid of the new SignerInformationEntity.
+     * @param createdAt defines the createdAt timestamp of the new SignerInformationEntity.
+     * @param rawData defines the raw certificate data of the new SignerInformationEntity.
+     *
+     */
+    @Transactional
     private void saveSignerCertificate(String kid, ZonedDateTime createdAt, String rawData) {
         SignerInformationEntity signerEntity = new SignerInformationEntity();
         signerEntity.setKid(kid);
