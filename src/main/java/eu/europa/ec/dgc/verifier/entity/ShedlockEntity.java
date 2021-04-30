@@ -41,6 +41,6 @@ public class ShedlockEntity {
     private Date lockedUntil;
 
     @Column(name = "locked_by", length = 255, nullable = false)
-    private Date lockedBy;
+    private String lockedBy;
 
 }
