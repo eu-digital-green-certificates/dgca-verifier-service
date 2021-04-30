@@ -37,7 +37,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 
 @SpringBootTest
-public class SignerInformationServiceTest {
+class SignerInformationServiceTest {
 
     @MockBean
     DgcGatewayDownloadConnector dgcGatewayDownloadConnector;
@@ -58,7 +58,7 @@ public class SignerInformationServiceTest {
 
 
     @Test
-    public void updateEmptyRepositoryWithEmptyCertList()  {
+    void updateEmptyRepositoryWithEmptyCertList()  {
         ArrayList<TrustListItem> trustList = new ArrayList<>();
 
         signerInformationService.updateTrustedCertsList(trustList);
@@ -70,7 +70,7 @@ public class SignerInformationServiceTest {
     }
 
     @Test
-    public void updateEmptyRepositoryWithOneCert()  {
+    void updateEmptyRepositoryWithOneCert()  {
         ArrayList<TrustListItem> trustList = new ArrayList<>();
         trustList.add(signerInformationTestHelper.createTrustListItem(SignerInformationTestHelper.TEST_CERT_1_STR));
 
@@ -88,7 +88,7 @@ public class SignerInformationServiceTest {
     }
 
     @Test
-    public void updateEmptyRepositoryWithCerts()  {
+    void updateEmptyRepositoryWithCerts()  {
         ArrayList<TrustListItem> trustList = new ArrayList<>();
         trustList.add(signerInformationTestHelper.createTrustListItem(SignerInformationTestHelper.TEST_CERT_1_STR));
         trustList.add(signerInformationTestHelper.createTrustListItem(SignerInformationTestHelper.TEST_CERT_2_STR));
@@ -113,7 +113,7 @@ public class SignerInformationServiceTest {
     }
 
     @Test
-    public void updateEmptyRepositoryWithSameCertsTwice() {
+    void updateEmptyRepositoryWithSameCertsTwice() {
         ArrayList<TrustListItem> trustList = new ArrayList<>();
         trustList.add(signerInformationTestHelper.createTrustListItem(SignerInformationTestHelper.TEST_CERT_1_STR));
         trustList.add(signerInformationTestHelper.createTrustListItem(SignerInformationTestHelper.TEST_CERT_2_STR));
@@ -144,7 +144,7 @@ public class SignerInformationServiceTest {
     }
 
     @Test
-    public void updateRepositoryWithOneNewCertAndOneRevoked() {
+    void updateRepositoryWithOneNewCertAndOneRevoked() {
         signerInformationTestHelper.insertCertString(SignerInformationTestHelper.TEST_CERT_1_STR);
         signerInformationTestHelper.insertCertString(SignerInformationTestHelper.TEST_CERT_2_STR);
 
@@ -170,7 +170,7 @@ public class SignerInformationServiceTest {
     }
 
     @Test
-    public void updateRepositoryWithEmptyCertList() {
+    void updateRepositoryWithEmptyCertList() {
         signerInformationTestHelper.insertCertString(SignerInformationTestHelper.TEST_CERT_1_STR);
         signerInformationTestHelper.insertCertString(SignerInformationTestHelper.TEST_CERT_2_STR);
         signerInformationTestHelper.insertCertString(SignerInformationTestHelper.TEST_CERT_3_STR);

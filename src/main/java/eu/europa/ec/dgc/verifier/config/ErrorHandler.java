@@ -21,7 +21,6 @@
 package eu.europa.ec.dgc.verifier.config;
 
 import eu.europa.ec.dgc.verifier.restapi.dto.ProblemReportDto;
-import javax.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;

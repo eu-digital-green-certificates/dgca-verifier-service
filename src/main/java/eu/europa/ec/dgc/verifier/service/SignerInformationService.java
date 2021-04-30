@@ -89,7 +89,7 @@ public class SignerInformationService {
         List<String> trustedCertsKids = trustedCerts.stream().map(TrustListItem::getKid).collect(Collectors.toList());
         List<String> alreadyStoredCerts = getListOfValidKids();
 
-        if (trustedCertsKids.size() == 0) {
+        if (trustedCertsKids.isEmpty()) {
             signerInformationRepository.deleteAll();
         } else {
             signerInformationRepository.deleteByKidNotIn(trustedCertsKids);
@@ -111,7 +111,6 @@ public class SignerInformationService {
      * @param rawData defines the raw certificate data of the new SignerInformationEntity.
      *
      */
-    @Transactional
     private void saveSignerCertificate(String kid, ZonedDateTime createdAt, String rawData) {
         SignerInformationEntity signerEntity = new SignerInformationEntity();
         signerEntity.setKid(kid);
