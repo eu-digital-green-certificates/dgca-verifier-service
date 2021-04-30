@@ -21,12 +21,15 @@
 package eu.europa.ec.dgc.verifier.service;
 
 
-import eu.europa.ec.dgc.verifier.mock.DgcGatewayConnector;
-import eu.europa.ec.dgc.verifier.mock.TrustListItem;
+
+
+import eu.europa.ec.dgc.gateway.connector.DgcGatewayDownloadConnector;
+import eu.europa.ec.dgc.gateway.connector.model.TrustListItem;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -38,17 +41,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class SignerCertificateDownloadService {
 
-    public final DgcGatewayConnector dgcGatewayConnector;
+    @Autowired
+    DgcGatewayDownloadConnector dgcGatewayConnector;
     public final SignerInformationService signerInformationService;
 
     /**
      * scheduled service - synchronises the signer certificates with the gateway.
      */
     @Scheduled(
-        fixedDelayString = "${dgc.synchroniseCertificates.timeInterval}"
+        fixedDelayString = "${dgc.certificatesDownloader.timeInterval}"
     )
     @SchedulerLock(name = "SignerCertificateDownloadService_downloadCertificates", lockAtLeastFor = "PT0S",
-        lockAtMostFor = "${dgc.synchroniseCertificates.lockLimit}")
+        lockAtMostFor = "${dgc.certificatesDownloader.lockLimit}")
     public void downloadCertificates() {
         log.info("Certificates download started");
 

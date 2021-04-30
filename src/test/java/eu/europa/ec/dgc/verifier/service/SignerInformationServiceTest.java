@@ -21,8 +21,9 @@
 package eu.europa.ec.dgc.verifier.service;
 
 
+import eu.europa.ec.dgc.gateway.connector.DgcGatewayDownloadConnector;
+import eu.europa.ec.dgc.gateway.connector.model.TrustListItem;
 import eu.europa.ec.dgc.verifier.entity.SignerInformationEntity;
-import eu.europa.ec.dgc.verifier.mock.TrustListItem;
 import eu.europa.ec.dgc.verifier.repository.SignerInformationRepository;
 import eu.europa.ec.dgc.verifier.testdata.SignerInformationTestHelper;
 import java.util.ArrayList;
@@ -32,10 +33,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 
 @SpringBootTest
 public class SignerInformationServiceTest {
+
+    @MockBean
+    DgcGatewayDownloadConnector dgcGatewayDownloadConnector;
 
     @Autowired
     SignerInformationRepository signerInformationRepository;

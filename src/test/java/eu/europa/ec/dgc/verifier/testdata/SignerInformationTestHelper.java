@@ -20,9 +20,9 @@
 
 package eu.europa.ec.dgc.verifier.testdata;
 
+import eu.europa.ec.dgc.gateway.connector.model.TrustListItem;
 import eu.europa.ec.dgc.utils.CertificateUtils;
 import eu.europa.ec.dgc.verifier.entity.SignerInformationEntity;
-import eu.europa.ec.dgc.verifier.mock.TrustListItem;
 import eu.europa.ec.dgc.verifier.repository.SignerInformationRepository;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

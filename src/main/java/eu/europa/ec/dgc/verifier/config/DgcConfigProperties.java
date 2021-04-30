@@ -20,7 +20,6 @@
 
 package eu.europa.ec.dgc.verifier.config;
 
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -30,29 +29,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("dgc")
 public class DgcConfigProperties {
 
-    private final CertAuth certAuth = new CertAuth();
-    private final TrustAnchor trustAnchor = new TrustAnchor();
+    private final CertificatesDownloader certificatesDownloader = new CertificatesDownloader();
 
     @Getter
     @Setter
-    public static class TrustAnchor {
-        private String keyStorePath;
-        private String keyStorePass;
-        private String certificateAlias;
-    }
-
-    @Getter
-    @Setter
-    public static class CertAuth {
-
-        private final HeaderFields headerFields = new HeaderFields();
-        private List<String> certWhitelist;
-
-        @Getter
-        @Setter
-        public static class HeaderFields {
-            private String thumbprint;
-            private String distinguishedName;
-        }
+    public static class CertificatesDownloader {
+        private Integer timeInterval;
+        private Integer lockLimit;
     }
 }

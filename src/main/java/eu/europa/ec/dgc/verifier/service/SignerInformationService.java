@@ -21,8 +21,8 @@
 package eu.europa.ec.dgc.verifier.service;
 
 
+import eu.europa.ec.dgc.gateway.connector.model.TrustListItem;
 import eu.europa.ec.dgc.verifier.entity.SignerInformationEntity;
-import eu.europa.ec.dgc.verifier.mock.TrustListItem;
 import eu.europa.ec.dgc.verifier.repository.SignerInformationRepository;
 import eu.europa.ec.dgc.verifier.restapi.dto.KidDto;
 import java.time.ZonedDateTime;
