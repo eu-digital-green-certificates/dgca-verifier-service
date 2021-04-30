@@ -21,15 +21,19 @@
 package eu.europa.ec.dgc.verifier.service;
 
 
+import eu.europa.ec.dgc.gateway.connector.model.TrustListItem;
 import eu.europa.ec.dgc.verifier.entity.SignerInformationEntity;
 import eu.europa.ec.dgc.verifier.repository.SignerInformationRepository;
 import eu.europa.ec.dgc.verifier.restapi.dto.KidDto;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Component
@@ -70,6 +74,50 @@ public class SignerInformationService {
             }
         }
         return responseArray;
+    }
+
+
+    /**
+     * Method to synchronise the certificates in the db with the given List of trusted certificates.
+     *
+     * @param trustedCerts defines the list of trusted certificates.
+     *
+     */
+    @Transactional
+    public void updateTrustedCertsList(List<TrustListItem> trustedCerts) {
+
+        List<String> trustedCertsKids = trustedCerts.stream().map(TrustListItem::getKid).collect(Collectors.toList());
+        List<String> alreadyStoredCerts = getListOfValidKids();
+
+        if (trustedCertsKids.isEmpty()) {
+            signerInformationRepository.deleteAll();
+        } else {
+            signerInformationRepository.deleteByKidNotIn(trustedCertsKids);
+        }
+
+
+        for (TrustListItem cert : trustedCerts) {
+            if (!alreadyStoredCerts.contains(cert.getKid())) {
+                saveSignerCertificate(cert.getKid(),cert.getTimestamp(), cert.getRawData());
+            }
+        }
+    }
+
+    /**
+     * Method adds a new SignerInformationEntity to the db.
+     *
+     * @param kid defines the kid of the new SignerInformationEntity.
+     * @param createdAt defines the createdAt timestamp of the new SignerInformationEntity.
+     * @param rawData defines the raw certificate data of the new SignerInformationEntity.
+     *
+     */
+    private void saveSignerCertificate(String kid, ZonedDateTime createdAt, String rawData) {
+        SignerInformationEntity signerEntity = new SignerInformationEntity();
+        signerEntity.setKid(kid);
+        signerEntity.setCreatedAt(createdAt);
+        signerEntity.setRawData(rawData);
+
+        signerInformationRepository.save(signerEntity);
     }
 
 }

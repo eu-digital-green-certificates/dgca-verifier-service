@@ -18,23 +18,29 @@
  * ---license-end
  */
 
-package eu.europa.ec.dgc.verifier.config;
+package eu.europa.ec.dgc.verifier.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-@Getter
-@Setter
-@ConfigurationProperties("dgc")
-public class DgcConfigProperties {
+@Entity
+@Table(name = "shedlock")
+public class ShedlockEntity {
 
-    private final CertificatesDownloader certificatesDownloader = new CertificatesDownloader();
+    @Id
+    @Column(name = "name", length = 64, nullable = false)
+    private String name;
 
-    @Getter
-    @Setter
-    public static class CertificatesDownloader {
-        private Integer timeInterval;
-        private Integer lockLimit;
-    }
+    @Column(name = "lock_until", nullable = false)
+    private Date lockUntil;
+
+    @Column(name = "locked_at", nullable = false)
+    private Date lockedUntil;
+
+    @Column(name = "locked_by", length = 255, nullable = false)
+    private String lockedBy;
+
 }

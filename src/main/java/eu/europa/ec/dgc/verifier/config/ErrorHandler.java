@@ -21,7 +21,6 @@
 package eu.europa.ec.dgc.verifier.config;
 
 import eu.europa.ec.dgc.verifier.restapi.dto.ProblemReportDto;
-import javax.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
@@ -39,20 +38,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @Slf4j
 public class ErrorHandler extends ResponseEntityExceptionHandler {
 
-    /**
-     * Handles {@link ConstraintViolationException} when a validation failed.
-     *
-     * @param e the thrown {@link ConstraintViolationException}
-     * @return A ResponseEntity with a ErrorMessage inside.
-     */
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ProblemReportDto> handleException(ConstraintViolationException e) {
-        log.error(e.getMessage());
-        return ResponseEntity
-            .status(HttpStatus.BAD_REQUEST)
-            .contentType(MediaType.APPLICATION_JSON)
-            .body(new ProblemReportDto("", "Validation Error", "", e.getMessage()));
-    }
 
     /**
      * Global Exception Handler to wrap exceptions into a readable JSON Object.
