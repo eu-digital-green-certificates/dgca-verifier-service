@@ -20,16 +20,12 @@
 
 package eu.europa.ec.dgc.verifier.service;
 
-
-
-
 import eu.europa.ec.dgc.gateway.connector.DgcGatewayDownloadConnector;
 import eu.europa.ec.dgc.gateway.connector.model.TrustListItem;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -41,9 +37,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class SignerCertificateDownloadService {
 
-    @Autowired
-    DgcGatewayDownloadConnector dgcGatewayConnector;
-    public final SignerInformationService signerInformationService;
+    private final DgcGatewayDownloadConnector dgcGatewayConnector;
+    private final SignerInformationService signerInformationService;
 
     /**
      * scheduled service - synchronises the signer certificates with the gateway.

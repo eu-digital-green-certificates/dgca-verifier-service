@@ -59,3 +59,11 @@ jobs:
         APP_PACKAGES_URL: docker.pkg.github.com/${{ github.repository }}/container
         APP_PACKAGES_USERNAME: ${{ github.actor }}
         APP_PACKAGES_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+    - name: assets
+      run: >-
+        gh release upload ${APP_TAG}
+        --clobber
+        ./target/openapi-${APP_TAG}.json
+        ./target/generated-resources/licenses-${APP_TAG}.xml
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
