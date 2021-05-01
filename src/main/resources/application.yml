@@ -1,9 +1,9 @@
 server:
-  port: 8090
+  port: 8080
 spring:
   profiles:
     group:
-      "dev": "h2"
+      dev: h2
   application:
     name: eu-digital-green-certificates-verifier-service
   datasource:
@@ -23,7 +23,7 @@ management:
   endpoints:
     web:
       exposure:
-        exclude: "*"
+        exclude: '*'
   server:
     port: -1
 dgc:
@@ -48,7 +48,6 @@ dgc:
         alias: ta
         password: dgcg-p4ssw0rd
         path: classpath:trust_anchor.jks
-
 
 springdoc:
   api-docs:

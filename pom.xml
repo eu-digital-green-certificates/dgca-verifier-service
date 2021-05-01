@@ -6,8 +6,8 @@
 
   <groupId>eu.europa.ec.dgc</groupId>
   <artifactId>dgca-verifier-service</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
-  <packaging>${packaging.format}</packaging>
+  <version>latest</version>
+  <packaging>jar</packaging>
 
   <name>dgca-verifier-service</name>
   <description>European Digital Green Certificate Verifier Service project.</description>
@@ -15,15 +15,7 @@
     <name>T-Systems International GmbH</name>
   </organization>
 
-  <repositories>
-    <repository>
-      <id>dgc-github</id>
-      <url>https://maven.pkg.github.com/${github.organization}/*</url>
-    </repository>
-  </repositories>
-
   <properties>
-    <packaging.format>jar</packaging.format>
     <!-- java -->
     <java.version>11</java.version>
     <maven.compiler.source>11</maven.compiler.source>
@@ -85,55 +77,19 @@
     <url>https://github.com/eu-digital-green-certificates/dgca-verifier-service</url>
   </scm>
 
-  <profiles>
-    <profile>
-      <id>docker</id>
-      <properties>
-        <build.profile.id>docker</build.profile.id>
-        <packaging.format>jar</packaging.format>
-      </properties>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-            <version>${spring.boot.version}</version>
-            <configuration>
-              <outputDirectory>${project.build.directory}/docker</outputDirectory>
-              <classifier>exec</classifier>
-            </configuration>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-resources-plugin</artifactId>
-            <version>3.2.0</version>
-            <executions>
-              <execution>
-                <id>copy-dockerfile</id>
-                <phase>validate</phase>
-                <goals>
-                  <goal>copy-resources</goal>
-                </goals>
-                <configuration>
-                  <outputDirectory>${project.build.directory}/docker</outputDirectory>
-                  <resources>
-                    <resource>
-                      <directory>${project.basedir}/src/main/docker</directory>
-                      <filtering>true</filtering>
-                    </resource>
-                  </resources>
-                  <delimiters>
-                    <delimiter>${*}</delimiter>
-                    <delimiter>@</delimiter>
-                  </delimiters>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
+  <repositories>
+    <repository>
+      <id>dgc-github</id>
+      <url>https://maven.pkg.github.com/${github.organization}/*</url>
+    </repository>
+  </repositories>
+
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/${github.organization}/${github.project}</url>
+    </repository>
+  </distributionManagement>
 
   <dependencyManagement>
     <dependencies>
@@ -168,13 +124,6 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-
-  <distributionManagement>
-    <repository>
-      <id>github</id>
-      <url>https://maven.pkg.github.com/${github.organization}/${github.project}</url>
-    </repository>
-  </distributionManagement>
 
   <dependencies>
     <dependency>
@@ -290,9 +239,21 @@
     <pluginManagement>
       <plugins>
         <plugin>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+          <version>${spring.boot.version}</version>
+        </plugin>
+        <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
           <version>${plugin.checkstyle.version}</version>
+          <dependencies>
+            <dependency>
+              <groupId>com.puppycrawl.tools</groupId>
+              <artifactId>checkstyle</artifactId>
+              <version>8.41.1</version>
+            </dependency>
+          </dependencies>
         </plugin>
         <plugin>
           <groupId>org.sonarsource.scanner.maven</groupId>
@@ -338,7 +299,7 @@
         </configuration>
         <executions>
           <execution>
-            <id>validate</id>
+            <id>check</id>
             <phase>validate</phase>
             <goals>
               <goal>check</goal>
@@ -349,12 +310,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>${plugin.surefire.version}</version>
       </plugin>
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-        <version>${spring.boot.version}</version>
         <executions>
           <execution>
             <goals>
@@ -367,10 +326,9 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>${plugin.checkstyle.version}</version>
         <configuration>
-          <configLocation>codestyle/checkstyle.xml</configLocation>
-          <excludes>target/**/*</excludes>
+          <configLocation>./codestyle/checkstyle.xml</configLocation>
+          <excludes>./target/**/*</excludes>
           <encoding>UTF-8</encoding>
           <consoleOutput>true</consoleOutput>
           <failsOnError>true</failsOnError>
@@ -380,7 +338,7 @@
         </configuration>
         <executions>
           <execution>
-            <id>validate</id>
+            <id>check</id>
             <phase>validate</phase>
             <goals>
               <goal>check</goal>
@@ -409,7 +367,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
         <configuration>
           <annotationProcessorPaths>
             <path>
@@ -428,7 +385,6 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>license-maven-plugin</artifactId>
-        <version>2.0.0</version>
         <configuration>
           <includes>**/*.java</includes>
           <copyrightOwners>${project.organization.name} and all other contributors</copyrightOwners>
@@ -439,9 +395,16 @@
           <trimHeaderLine>true</trimHeaderLine>
           <emptyLineAfterHeader>true</emptyLineAfterHeader>
         </configuration>
+        <executions>
+          <execution>
+            <id>download-licenses</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>download-licenses</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
-      
-
     </plugins>
   </build>
 

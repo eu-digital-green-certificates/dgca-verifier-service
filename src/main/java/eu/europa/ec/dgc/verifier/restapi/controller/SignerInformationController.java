@@ -75,22 +75,21 @@ public class SignerInformationController {
                 content = @Content(
                     mediaType = MediaType.TEXT_PLAIN_VALUE,
                     schema = @Schema(implementation = String.class),
-                    examples = {@ExampleObject(value =
-                        "MIIBGzCBwqADAgECAgRggUObMAoGCCqGSM49BAMCMBYxFDASBgNVBAMMC2VkZ2Nf"
+                    examples = {
+                        @ExampleObject(value =
+                            "MIIBGzCBwqADAgECAgRggUObMAoGCCqGSM49BAMCMBYxFDASBgNVBAMMC2VkZ2Nf"
                             + "ZGV2X2VjMB4XDTIxMDQyMjA5MzYyN1oXDTIyMDQyMjA5MzYyN1owFjEUMBIGA1UE"
                             + "AwwLZWRnY19kZXZfZWMwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAQVQc9JY190"
                             + "s/Jn0CBSq/AWuxmqUzRVu+AsCe6gfbqk3s0e4jonzp5v/5IMW/9t7v5Fu2ITMmOT"
                             + "VfKL1TuM+aixMAoGCCqGSM49BAMCA0gAMEUCIQCGWIk6ZET3afRxdpFVuXdrEYtF"
                             + "iR1MGDx4HweZfspjSgIgBdCJsT746/FI3euIbzKDoeY65m+Qx2/4Cd/vOayNbuw="
-                    )}
-                )
-            ),
+                            )})),
             @ApiResponse(
                 responseCode = "204",
                 description = "No Content available. All certificates already downloaded.",
-                content = @Content(schema = @Schema(hidden = true))
-            )
-        })
+                content = @Content(schema = @Schema(hidden = true)))
+        }
+    )
     public ResponseEntity<String> getSignerCertificateUpdate(
         @RequestHeader(value = X_RESUME_TOKEN_HEADER, required = false) Long resumeToken
     ) {
@@ -124,9 +123,7 @@ public class SignerInformationController {
                 content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                     array = @ArraySchema(schema = @Schema(implementation = String.class)),
-                    examples = {@ExampleObject(value = "[\"8xYtW2837bc=\",\"zoQi+KT68LM=\"]")}
-                )
-            )
+                    examples = {@ExampleObject(value = "[\"8xYtW2837bc=\",\"zoQi+KT68LM=\"]")}))
         })
     public ResponseEntity<List<String>> getSignerCertificateStatus() {
 

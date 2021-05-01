@@ -34,13 +34,6 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  */
 @SpringBootApplication
 @EnableConfigurationProperties(DgcConfigProperties.class)
-@OpenAPIDefinition(
-    info = @Info(
-        title = "Digital Green Certificate Verifier Service",
-        description = "The API defines how to exchange verification information for digital green certificates.",
-        license = @License(name = "Apache 2.0", url = "https://www.apache.org/licenses/LICENSE-2.0")
-    )
-)
 public class DgcVerifierServiceApplication extends SpringBootServletInitializer {
 
     /**

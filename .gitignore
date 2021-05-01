@@ -44,3 +44,5 @@ build/
 
 ### MAC OS ###
 .DS_STORE
+
+.settings.xml

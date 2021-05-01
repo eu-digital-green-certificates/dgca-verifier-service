@@ -17,7 +17,7 @@ services:
   backend:
     build: .
     image: eu-digital-green-certificates/dgc-verifier-service
-    container_name: dgc-verifier-service-backend
+    container_name: dgc-verifier-service
     volumes:
       - ./certs:/ec/prod/app/san/dgc
     ports:
@@ -25,10 +25,9 @@ services:
     environment:
       - SERVER_PORT=8080
       - SPRING_PROFILES_ACTIVE=mysql
-      - SPRING_DATASOURCE_URL=jdbc:mysql://dgc-verifier-service-mysql:3306/fg
+      - SPRING_DATASOURCE_URL=jdbc:mysql://dgc-verifier-service-mysql:3306/dgc
       - SPRING_DATASOURCE_USERNAME=dgc_adm
       - SPRING_DATASOURCE_PASSWORD=admin
-      - efgs_dbencryption_password=aaaaaaaaaaaaaaaa
     depends_on:
       - mysql
     networks:
@@ -36,5 +35,5 @@ services:
       persistence:
 
 networks:
-  persistence:
   backend:
+  persistence:
