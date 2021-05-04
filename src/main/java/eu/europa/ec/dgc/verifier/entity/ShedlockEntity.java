@@ -23,6 +23,8 @@ package eu.europa.ec.dgc.verifier.entity;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -31,16 +33,20 @@ import javax.persistence.Table;
 public class ShedlockEntity {
 
     @Id
-    @Column(name = "name", length = 64, nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "name", length = 64, nullable = false, unique = true)
     private String name;
 
     @Column(name = "lock_until", nullable = false)
     private Date lockUntil;
 
     @Column(name = "locked_at", nullable = false)
-    private Date lockedUntil;
+    private Date lockedAt;
 
-    @Column(name = "locked_by", length = 255, nullable = false)
+    @Column(name = "locked_by", nullable = false)
     private String lockedBy;
 
 }

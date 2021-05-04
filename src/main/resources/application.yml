@@ -1,31 +1,48 @@
 server:
   port: 8080
 spring:
-  profiles:
-    group:
-      dev: h2
   application:
-    name: eu-digital-green-certificates-verifier-service
+    name: dgca-verifier-service
   datasource:
-    jndi-name: jdbc/dgc
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:dgc;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1;
+    username: sa
+    password: ''
   jpa:
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
   liquibase:
-    enabled: false
     change-log: classpath:db/changelog.xml
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
   task:
     scheduling:
       pool:
         size: 5
 management:
+  endpoint:
+    info:
+      enabled: true
+    health:
+      enabled: true
   endpoints:
+    enabled-by-default: false
     web:
+      base-path: /management
       exposure:
-        exclude: '*'
-  server:
-    port: -1
+        include: info,health
+info:
+  name: ${spring.application.name}
+  profiles: ${spring.profiles.active}
+springdoc:
+  api-docs:
+    path: /api/docs
+    enabled: true
+  swagger-ui:
+    path: /swagger
 dgc:
   certificatesDownloader:
     timeInterval: 60000
@@ -48,7 +65,3 @@ dgc:
         alias: ta
         password: dgcg-p4ssw0rd
         path: classpath:trust_anchor.jks
-
-springdoc:
-  api-docs:
-    enabled: false

@@ -32,8 +32,7 @@ public interface SignerInformationRepository extends JpaRepository<SignerInforma
 
     Optional<SignerInformationEntity> findFirstByIdIsNotNullOrderByIdAsc();
 
-    Optional<SignerInformationEntity> findFirstByIdGreaterThanOrderByIdAsc(
-            Long id);
+    Optional<SignerInformationEntity> findFirstByIdGreaterThanOrderByIdAsc(Long id);
 
     Optional<List<KidDto>> findAllByOrderByIdAsc();
 

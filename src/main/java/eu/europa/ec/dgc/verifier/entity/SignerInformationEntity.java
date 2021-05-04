@@ -43,7 +43,7 @@ import lombok.Setter;
 public class SignerInformationEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -56,7 +56,7 @@ public class SignerInformationEntity {
     /**
      * Timestamp of the Record creation.
      */
-    @Column(name = "timestamp_created", nullable = false)
+    @Column(name = "created_at", nullable = false)
     private ZonedDateTime createdAt = ZonedDateTime.now();
 
     /**
