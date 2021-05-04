@@ -66,13 +66,12 @@ public class SignerInformationService {
     public List<String> getListOfValidKids() {
         ArrayList<String> responseArray = new ArrayList<>();
 
-        List<KidDto> validIds = signerInformationRepository.findAllByOrderByIdAsc().orElse(null);
+        List<KidDto> validIds = signerInformationRepository.findAllByOrderByIdAsc();
 
-        if (validIds != null) {
-            for (KidDto validId : validIds) {
-                responseArray.add(validId.getKid());
-            }
+        for (KidDto validId : validIds) {
+            responseArray.add(validId.getKid());
         }
+
         return responseArray;
     }
 
