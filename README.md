@@ -85,8 +85,9 @@ After all containers have started, you will be able to reach the service on your
 
 ## Documentation  
 
-- [ ] TODO: Link to documentation
-
+See [./docs/dgca-verifier-service.md](./docs/dgca-verifier-service.md)
+  
+### Api Description
 
 ## Support and feedback
 
