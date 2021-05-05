@@ -28,17 +28,60 @@ The DGC Verifier Service is part of the national backends and caches the public 
 
 ### Prerequisites
 
-- [ ] TODO: Describe prerequisites
-
+- [Open JDK 11](https://openjdk.java.net)
+- [Maven](https://maven.apache.org)
+- [Docker](https://www.docker.com)
+- An installation of the [DGCG](https://https://github.com/eu-digital-green-certificates/dgc-gateway)
+- Keys to access the [DGCG](https://https://github.com/eu-digital-green-certificates/dgc-gateway) via the
+  [DGCG Connector](https://github.com/eu-digital-green-certificates/dgc-lib) of the [DGC-lib](https://github.com/eu-digital-green-certificates/dgc-lib)
+  
+For further information about the keys and certificates needed, please refer to the documentation of the 
+[DGCG](https://https://github.com/eu-digital-green-certificates/dgc-gateway) and the 
+[DGC-lib](https://github.com/eu-digital-green-certificates/dgc-lib)
+  
 ### Build
 
 Whether you cloned or downloaded the 'zipped' sources you will either find the sources in the chosen checkout-directory or get a zip file with the source code, which you can expand to a folder of your choice.
 
 In either case open a terminal pointing to the directory you put the sources in. The local build process is described afterwards depending on the way you choose.
 
-#### XYZ (Maven, Docker ...) based build
 
-- [ ] TODO: Add instructions for different build types
+#### Build with maven
+Building this project is done with maven.  
+
+* Check [settings.xml](settings.xml) in the root folder of this git repository as example.  
+  Copy the servers to your own `~/.m2/settings.xml` in order to connect the GitHub repositories we use in our code. Provide your GitHub username and access token (see [GitHub Help](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)) under the variables suggested.
+
+* Run the following command from the project root folder
+```shell
+mvn clean install
+```
+All required dependencies will be downloaded, the project build and the artifact stored in your local repository.
+#### Run with docker
+* Perform maven build as described above
+* Place the keys and certificates named above into the ***certs*** folder.
+* Adjust the values in the [docker-compose.yml](docker-compose.yml) file to fit the url for the gateway you use and 
+  your keys and certificates you have to access it.
+  ```yaml
+  - DGC_GATEWAY_CONNECTOR_ENDPOINT=https://dgc-gateway.example.com
+  - DGC_GATEWAY_CONNECTOR_TLSTRUSTSTORE_PATH=file:/ec/prod/app/san/dgc/tls_trust_store.p12
+  - DGC_GATEWAY_CONNECTOR_TLSTRUSTSTORE_PASSWORD=dgcg-p4ssw0rd
+  - DGC_GATEWAY_CONNECTOR_TLSKEYSTORE_ALIAS=1
+  - DGC_GATEWAY_CONNECTOR_TLSKEYSTORE_PATH=file:/ec/prod/app/san/dgc/tls_key_store.p12
+  - DGC_GATEWAY_CONNECTOR_TLSKEYSTORE_PASSWORD=dgcg-p4ssw0rd
+  - DGC_GATEWAY_CONNECTOR_TRUSTANCHOR_ALIAS=ta
+  - DGC_GATEWAY_CONNECTOR_TRUSTANCHOR_PATH=file:/ec/prod/app/san/dgc/trust_anchor.jks
+  - DGC_GATEWAY_CONNECTOR_TRUSTANCHOR_PASSWORD=dgcg-p4ssw0rd
+  ```
+***Note:*** Leave the path as is and only change the file names, as the ***certs*** folder will be mapped to this folder inside the docker container.
+
+* Run the following command from the project root folder
+
+```shell
+docker-compose up --build
+```
+
+After all containers have started, you will be able to reach the service on your [local machine](http://localhost:8080/api/docs) under port 8080.
 
 ## Documentation  
 
