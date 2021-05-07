@@ -35,6 +35,8 @@ The DGC Verifier Service is part of the national backends and caches the public 
 - Keys to access the [DGCG](https://https://github.com/eu-digital-green-certificates/dgc-gateway) via the
   [DGCG Connector](https://github.com/eu-digital-green-certificates/dgc-lib) of the [DGC-lib](https://github.com/eu-digital-green-certificates/dgc-lib)
   
+**Note:** The verifier service needs the connection to the gateway in order to run. There is no standalone version available.
+
 For further information about the keys and certificates needed, please refer to the documentation of the 
 [DGCG](https://https://github.com/eu-digital-green-certificates/dgc-gateway) and the 
 [DGC-lib](https://github.com/eu-digital-green-certificates/dgc-lib)
