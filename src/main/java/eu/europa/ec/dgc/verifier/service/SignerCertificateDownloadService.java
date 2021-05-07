@@ -20,42 +20,10 @@
 
 package eu.europa.ec.dgc.verifier.service;
 
-import eu.europa.ec.dgc.gateway.connector.DgcGatewayDownloadConnector;
-import eu.europa.ec.dgc.gateway.connector.model.TrustListItem;
-import java.util.List;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-
-/**
- * A service to download the signer certificates from the digital green certificate gateway.
- */
-@Slf4j
-@RequiredArgsConstructor
-@Component
-public class SignerCertificateDownloadService {
-
-    private final DgcGatewayDownloadConnector dgcGatewayConnector;
-    private final SignerInformationService signerInformationService;
+public interface SignerCertificateDownloadService {
 
     /**
-     * scheduled service - synchronises the signer certificates with the gateway.
+     * Synchronises the signer certificates with the gateway.
      */
-    @Scheduled(
-        fixedDelayString = "${dgc.certificatesDownloader.timeInterval}"
-    )
-    @SchedulerLock(name = "SignerCertificateDownloadService_downloadCertificates", lockAtLeastFor = "PT0S",
-        lockAtMostFor = "${dgc.certificatesDownloader.lockLimit}")
-    public void downloadCertificates() {
-        log.info("Certificates download started");
-
-        List<TrustListItem> trustedCerts = dgcGatewayConnector.getTrustedCertificates();
-
-        signerInformationService.updateTrustedCertsList(trustedCerts);
-
-        log.info("Certificates download finished");
-    }
-
+    void downloadCertificates();
 }
