@@ -51,6 +51,7 @@ import org.bouncycastle.cert.CertException;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.operator.ContentVerifierProvider;
 import org.bouncycastle.operator.OperatorCreationException;
+import org.bouncycastle.operator.RuntimeOperatorException;
 import org.bouncycastle.operator.jcajce.JcaContentVerifierProviderBuilder;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -147,7 +148,7 @@ public class SignerCertificateDownloadBtpServiceImpl implements SignerCertificat
         byte[] decodedBytes = Base64.getDecoder().decode(trustListItem.getRawData());
         try {
             return new X509CertificateHolder(decodedBytes);
-        } catch (IOException var4) {
+        } catch (IOException e) {
             log.error("Failed to parse Certificate Raw Data. KID: {}, Country: {}", trustListItem.getKid(),
                 trustListItem.getCountry());
             return null;
@@ -170,7 +171,7 @@ public class SignerCertificateDownloadBtpServiceImpl implements SignerCertificat
         ContentVerifierProvider verifier;
         try {
             verifier = (new JcaContentVerifierProviderBuilder()).build(ca);
-        } catch (CertificateException | OperatorCreationException var8) {
+        } catch (CertificateException | OperatorCreationException e) {
             log.error("Failed to instantiate JcaContentVerifierProvider from cert. KID: {}, Country: {}",
                 certificate.getKid(), certificate.getCountry());
             return false;
@@ -179,7 +180,7 @@ public class SignerCertificateDownloadBtpServiceImpl implements SignerCertificat
         X509CertificateHolder dcs;
         try {
             dcs = new X509CertificateHolder(Base64.getDecoder().decode(certificate.getRawData()));
-        } catch (IOException var7) {
+        } catch (IOException e) {
             log.error("Could not parse certificate. KID: {}, Country: {}", certificate.getKid(),
                 certificate.getCountry());
             return false;
@@ -187,7 +188,7 @@ public class SignerCertificateDownloadBtpServiceImpl implements SignerCertificat
 
         try {
             return dcs.isSignatureValid(verifier);
-        } catch (CertException var6) {
+        } catch (RuntimeOperatorException | CertException e) {
             log.debug("Could not verify that certificate was issued by ca. Certificate: {}, CA: {}",
                 dcs.getSubject().toString(), ca.getSubject().toString());
             return false;
