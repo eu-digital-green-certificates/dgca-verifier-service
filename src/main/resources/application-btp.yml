@@ -1,0 +1,4 @@
+dgc:
+  gateway:
+    connector:
+      enabled: false
