@@ -9,10 +9,3 @@ spring:
     password: postgres
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-dgc:
-  certificatesDownloader:
-    timeInterval: 60000
-    lockLimit: 1800000
-  gateway:
-    connector:
-      enabled: false

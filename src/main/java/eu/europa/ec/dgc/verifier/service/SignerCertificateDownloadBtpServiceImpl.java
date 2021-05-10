@@ -66,7 +66,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-@Profile("cloud")
+@Profile("btp")
 public class SignerCertificateDownloadBtpServiceImpl implements SignerCertificateDownloadService {
 
     private static final String DGCG_DESTINATION = "dgcg-destination";
