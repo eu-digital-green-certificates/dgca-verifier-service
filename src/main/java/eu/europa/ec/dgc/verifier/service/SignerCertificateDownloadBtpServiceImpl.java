@@ -31,7 +31,6 @@ import com.sap.cloud.sdk.cloudplatform.connectivity.HttpClientAccessor;
 import com.sap.cloud.sdk.cloudplatform.connectivity.HttpDestination;
 import eu.europa.ec.dgc.gateway.connector.dto.TrustListItemDto;
 import eu.europa.ec.dgc.gateway.connector.model.TrustListItem;
-import eu.europa.ec.dgc.signing.SignedCertificateMessageParser;
 import java.io.IOException;
 import java.security.cert.CertificateException;
 import java.time.ZonedDateTime;
@@ -115,7 +114,7 @@ public class SignerCertificateDownloadBtpServiceImpl implements SignerCertificat
                 new TypeToken<List<TrustListItemDto>>() {}.getType());
 
             listOfDsc = trustListItems.stream().filter(dsc -> cscas.stream().anyMatch(
-                (ca) -> trustListItemSignedByCa(dsc, ca))).map(this::map).filter(Objects::nonNull)
+                ca -> trustListItemSignedByCa(dsc, ca))).map(this::map).filter(Objects::nonNull)
                 .collect(Collectors.toList());
         } catch (IOException e) {
             log.error("Fetching signer information from gateway failed: {}", e.getMessage(), e);
@@ -164,21 +163,6 @@ public class SignerCertificateDownloadBtpServiceImpl implements SignerCertificat
             trustListItem.setTimestamp(trustListItemDto.getTimestamp());
             trustListItem.setRawData(trustListItemDto.getRawData());
             return trustListItem;
-        }
-    }
-
-    private boolean checkTrustAnchorSignature(TrustListItemDto trustListItem, X509CertificateHolder trustAnchor) {
-        SignedCertificateMessageParser parser = new SignedCertificateMessageParser(trustListItem.getSignature(),
-            trustListItem.getRawData());
-        if (parser.getParserState() != SignedCertificateMessageParser.ParserState.SUCCESS) {
-            log.error("Could not parse trustListItem CMS. ParserState: {}", parser.getParserState());
-            return false;
-        } else if (!parser.isSignatureVerified()) {
-            log.error("Could not verify trustListItem CMS Signature, KID: {}, Country: {}", trustListItem.getKid(),
-                trustListItem.getCountry());
-            return false;
-        } else {
-            return parser.getSigningCertificate().equals(trustAnchor);
         }
     }
 
