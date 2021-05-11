@@ -23,7 +23,6 @@ target/
 ### NetBeans ###
 /nbproject/
 /nbbuild/
-/dist/
 /.nb-gradle/
 build/
 
@@ -42,7 +41,4 @@ build/
 !/tools/*.bat
 !/tools/*.sh
 
-### MAC OS ###
-.DS_STORE
-
-.settings.xml
+certs/*
