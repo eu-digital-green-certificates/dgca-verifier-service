@@ -100,9 +100,10 @@ After all containers have started, you will be able to reach the service on your
 
 ## Documentation  
 
-See [./docs/dgca-verifier-service.md](./docs/dgca-verifier-service.md)
-  
-### Api Description
+[OpenAPI Spec](https://eu-digital-green-certificates.github.io/dgca-verifier-service/)
+ 
+[Service description](./docs/dgca-verifier-service.md)
+
 
 ## Support and feedback
 
