@@ -34,6 +34,19 @@ The DGC Verifier Service is part of the national backends and caches the public 
 - An installation of the [DGCG](https://https://github.com/eu-digital-green-certificates/dgc-gateway)
 - Keys to access the [DGCG](https://https://github.com/eu-digital-green-certificates/dgc-gateway) via the
   [DGCG Connector](https://github.com/eu-digital-green-certificates/dgc-lib) of the [DGC-lib](https://github.com/eu-digital-green-certificates/dgc-lib)
+- Authenticate to [Github Packages](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry)
+
+#### Authenticating in to GitHub Packages
+
+As some of the required libraries (and/or versions are pinned/available only from GitHub Packages) You need to authenticate
+to [GitHub Packages](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry)
+The following steps need to be followed
+
+- Create [PAT](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token) with scopes:
+  - `read:packages` for downloading packages
+- Copy/Augment `~/.m2/settings.xml` with the contents of `settings.xml` present in this repository
+  - Replace `${app.packages.username}` with your github username
+  - Replace `${app.packages.password}` with the generated PAT
   
 **Note:** The verifier service needs the connection to the gateway in order to run. There is no standalone version available.
 
