@@ -44,9 +44,18 @@ The following steps need to be followed
 
 - Create [PAT](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token) with scopes:
   - `read:packages` for downloading packages
+
+##### GitHub Maven
+
 - Copy/Augment `~/.m2/settings.xml` with the contents of `settings.xml` present in this repository
   - Replace `${app.packages.username}` with your github username
   - Replace `${app.packages.password}` with the generated PAT
+
+##### GitHub Docker Registry
+
+- Run `docker login docker.pkg.github.com/eu-digital-green-certificates` before running further docker commands.
+  - Use your GitHub username as username
+  - Use the generated PAT as password
   
 **Note:** The verifier service needs the connection to the gateway in order to run. There is no standalone version available.
 
