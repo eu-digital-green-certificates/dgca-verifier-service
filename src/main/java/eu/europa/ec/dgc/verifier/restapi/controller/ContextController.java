@@ -64,7 +64,7 @@ public class ContextController {
         try {
             return  ResponseEntity.ok(IOUtils.toString(resource.getInputStream(), StandardCharsets.UTF_8));
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Could not read context file");
         }
         return ResponseEntity.ok("");
     }
