@@ -58,7 +58,7 @@ public class ContextController {
         }
     )
     public ResponseEntity<String> getContext() {
-        Resource resource = new ClassPathResource("/static/context.jsonc");
+        Resource resource = new ClassPathResource("/static/context.json");
         try {
             return  ResponseEntity.ok(IOUtils.toString(resource.getInputStream(), StandardCharsets.UTF_8));
         } catch (IOException e) {
