@@ -19,13 +19,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
     },
     webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
 )
-public class OpenApiTest {
+class OpenApiTest {
 
     @MockBean
     private DgcGatewayDownloadConnector dgcGatewayDownloadConnector;
 
     @Test
-    public void apiDocs() {
+    void apiDocs() {
         try (BufferedInputStream in = new BufferedInputStream(new URL("http://localhost:8080/openapi").openStream());
             FileOutputStream out = new FileOutputStream("target/openapi.json")) {
             byte[] buffer = new byte[1024];
