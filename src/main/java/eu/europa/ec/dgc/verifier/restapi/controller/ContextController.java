@@ -22,6 +22,7 @@ package eu.europa.ec.dgc.verifier.restapi.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import java.io.IOException;
@@ -54,7 +55,18 @@ public class ContextController {
                 description = "Returns the current context for the verifier app.",
                 content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = String.class)))
+                    schema = @Schema(implementation = String.class),
+                    examples = {@ExampleObject(value = "{\"origin\":\"DE\",\"versions\":{\"default\":{\"privacyUrl\":"
+                          + "\"https://publications.europa.eu/en/web/about-us/legal-notices/eu-mobile-apps\","
+                          + "\"context\":{\"url\":\"https://dgca-verifier-service.example.com/context\",\"pubKeys\":"
+                          + "[\"lKdU1EbQubxyDDm2q3N8KclZ2C94+3eI=\","
+                          + "\"r/mIkG3eEpVdm+u/ko/cwxzOMo1bkA5E=\"]},\"endpoints\":{\"status\":{\"url\":"
+                          + "\"https://dgca-verifier-service.example.com/signercertificateStatus\",\"pubKeys\":"
+                          + "[\"lKdU1EbQubxyDDm2q3N8KclZ2C94+3eI=\","
+                          + "\"r/mIkG3eEpVdm+u/ko/cwxzOMo1bkA5E=\"]},\"update\":{\"url\":"
+                          + "\"https://dgca-verifier-service.example.com/signercertificateUpdate\",\"pubKeys\":"
+                          + "[\"lKdU1EbQubxyDDm2q3N8KclZ2C94+3eI=\","
+                          + "\"r/mIkG3eEpVdm+u/ko/cwxzOMo1bkA5E=\"]}}},\"0.1.0\":{\"outdated\":true}}}")}))
         }
     )
     public ResponseEntity<String> getContext() {

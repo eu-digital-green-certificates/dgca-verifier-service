@@ -25,6 +25,7 @@ import eu.europa.ec.dgc.verifier.service.SignerInformationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -59,7 +60,11 @@ public class SignerInformationController {
      */
     @GetMapping(path = "/signercertificateUpdate", produces = MediaType.TEXT_PLAIN_VALUE)
     @Operation(
-        summary = "Gets one signer certificate.",
+        summary = "Gets one signer certificate and a resume token.",
+        description = "This method return one signer certificate and a corresponding resume token. In order to "
+            + "download all available certificates, start calling this method without the resume token set. Then repeat"
+            + " to call this method, with the resume token parameter set to the value of the last response. When you "
+            + "receive a 204 response you have downloaded all available certificates.",
         tags = {"Signer Information"},
         parameters = {
             @Parameter(
@@ -71,7 +76,17 @@ public class SignerInformationController {
         responses = {
             @ApiResponse(
                 responseCode = "200",
-                description = "Returns a filtered list of trusted certificates.",
+                description = "Returns one signer certificate and as header parameter a resume token and the kid. "
+                    + "There might be more certificates available to download. Repeat the request with the resume "
+                    + "token parameter set to the actual value, until you get a 204 response.",
+                headers = {
+                    @Header(
+                        name = "X-RESUME-TOKEN",
+                        description = "Token can be used to resume the download of the certificates."),
+                    @Header(
+                        name = "X-KID",
+                        description = "The kid of the returned certificate.")
+                },
                 content = @Content(
                     mediaType = MediaType.TEXT_PLAIN_VALUE,
                     schema = @Schema(implementation = String.class),
@@ -114,12 +129,15 @@ public class SignerInformationController {
      */
     @GetMapping(path = "/signercertificateStatus", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(
-        summary = "Gets list of kids from all valid certificates.",
+        summary = "Gets a list of kids from all valid certificates.",
         tags = {"Signer Information"},
+        description = "Gets a list of kids from all valid certificates. This list can be used to verify, that the "
+            + "downloaded certificates are still valid. If a kid of a downloaded certificate is not part of the list, "
+            + "the certificate is not valid any more.",
         responses = {
             @ApiResponse(
                 responseCode = "200",
-                description = "Returns a filtered list of trusted certificates.",
+                description = "Returns a list of kids of all valid certificates.",
                 content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                     array = @ArraySchema(schema = @Schema(implementation = String.class)),
