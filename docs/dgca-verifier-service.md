@@ -1,5 +1,5 @@
 # European Digital Green Certificate Applications 
-##DGCA-Verifier-Service
+## DGCA-Verifier-Service
 
 ### Intention
 The DGCA-Verifier-Service provides a template implementation for a member state backend service for a verifier application.
