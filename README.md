@@ -1,5 +1,5 @@
 <h1 align="center">
-    EU Digital Green Certificates Verifier Service
+    EU Digital COVID Certificate Verifier Service
 </h1>
 
 <p align="center">
