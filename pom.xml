@@ -38,7 +38,7 @@
     <bcpkix.version>1.68</bcpkix.version>
     <okhttp.version>4.9.1</okhttp.version>
     <shedlock.version>4.23.0</shedlock.version>
-    <dgc.lib.version>0.4.3</dgc.lib.version>
+    <dgc.lib.version>0.4.5</dgc.lib.version>
     <!-- plugins -->
     <plugin.checkstyle.version>3.1.2</plugin.checkstyle.version>
     <plugin.sonar.version>3.6.1.1688</plugin.sonar.version>
