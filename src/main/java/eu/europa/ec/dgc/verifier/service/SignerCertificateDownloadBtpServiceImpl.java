@@ -32,6 +32,7 @@ import com.sap.cloud.sdk.cloudplatform.connectivity.HttpDestination;
 import eu.europa.ec.dgc.gateway.connector.dto.TrustListItemDto;
 import eu.europa.ec.dgc.gateway.connector.model.TrustListItem;
 import java.io.IOException;
+import java.security.Security;
 import java.security.cert.CertificateException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
@@ -49,6 +51,7 @@ import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.util.EntityUtils;
 import org.bouncycastle.cert.CertException;
 import org.bouncycastle.cert.X509CertificateHolder;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.operator.ContentVerifierProvider;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.RuntimeOperatorException;
@@ -74,6 +77,11 @@ public class SignerCertificateDownloadBtpServiceImpl implements SignerCertificat
     private static final String DGCG_TRUST_LIST_DSC_ENDPOINT = "/trustList/DSC";
 
     private final SignerInformationService signerInformationService;
+
+    @PostConstruct
+    private void init() {
+        Security.addProvider(new BouncyCastleProvider());
+    }
 
     @Override
     @Scheduled(fixedDelayString = "${dgc.certificatesDownloader.timeInterval}")
