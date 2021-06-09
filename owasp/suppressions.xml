@@ -24,4 +24,8 @@
     <cve>CVE-2018-1272</cve>
     <cve>CVE-2020-5421</cve>
   </suppress>
+  <suppress>
+    <!--  Vulnerability impacts WebFlux apps only and can be ignored here.  -->
+    <cve>CVE-2021-22118</cve>
+  </suppress>
 </suppressions>
