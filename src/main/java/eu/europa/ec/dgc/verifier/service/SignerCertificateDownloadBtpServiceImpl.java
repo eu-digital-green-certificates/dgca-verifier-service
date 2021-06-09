@@ -197,7 +197,7 @@ public class SignerCertificateDownloadBtpServiceImpl implements SignerCertificat
         try {
             return dcs.isSignatureValid(verifier);
         } catch (RuntimeOperatorException | CertException e) {
-            log.debug("Could not verify that certificate was issued by ca. Certificate: {}, CA: {}",
+            log.trace("Could not verify that certificate was issued by ca. Certificate: {}, CA: {}",
                 dcs.getSubject().toString(), ca.getSubject().toString());
             return false;
         }
