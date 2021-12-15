@@ -25,7 +25,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- dependencies -->
     <owasp.version>6.1.1</owasp.version>
-    <spring.boot.version>2.5.6</spring.boot.version>
+    <spring.boot.version>2.6.0</spring.boot.version>
     <spring.cloud.version>2020.0.4</spring.cloud.version>
     <spring.cloud.openfeign.version>3.0.5</spring.cloud.openfeign.version>
     <spring.test.version>5.3.5</spring.test.version>
