@@ -24,10 +24,9 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- dependencies -->
-    <owasp.version>6.5.0</owasp.version>
-    <spring.boot.version>2.6.1</spring.boot.version>
+    <owasp.version>6.5.1</owasp.version>
+    <spring.boot.version>2.6.2</spring.boot.version>
     <spring.cloud.version>2021.0.0</spring.cloud.version>
-    <spring.cloud.openfeign.version>3.1.0</spring.cloud.openfeign.version>
     <spring.test.version>5.3.12</spring.test.version>
     <spring.security.version>5.6.0</spring.security.version>
     <lombok.version>1.18.22</lombok.version>
@@ -41,9 +40,8 @@
     <okhttp.version>4.9.2</okhttp.version>
     <shedlock.version>4.30.0</shedlock.version>
     <dgc.lib.version>1.1.7</dgc.lib.version>
-    <sap.cloud.sdk.version>3.57.0</sap.cloud.sdk.version>
+    <sap.cloud.sdk.version>3.60.0</sap.cloud.sdk.version>
     <slf4j.version>1.7.32</slf4j.version>
-    <log4j2.version>2.16.0</log4j2.version>   
     <!-- plugins -->
     <plugin.checkstyle.version>3.1.2</plugin.checkstyle.version>
     <plugin.sonar.version>3.6.1.1688</plugin.sonar.version>
@@ -98,34 +96,12 @@
 
   <dependencyManagement>
     <dependencies>
-       <dependency>
-			  <groupId>org.apache.logging.log4j</groupId>
-			  <artifactId>log4j-to-slf4j</artifactId>
-			  <version>${log4j2.version}</version>
-			 </dependency>
-       <dependency>
-        <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>log4j-api</artifactId>
-        <version>${log4j2.version}</version>
-       </dependency>
-       <dependency>
-        <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>log4j-core</artifactId>
-        <version>${log4j2.version}</version>
-      </dependency>
       <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
         <version>${spring.boot.version}</version>
         <type>pom</type>
         <scope>import</scope>
-      </dependency>
-      <dependency>
-          <groupId>org.springframework.cloud</groupId>
-          <artifactId>spring-cloud-openfeign-dependencies</artifactId>
-          <version>${spring.cloud.openfeign.version}</version>
-          <type>pom</type>
-          <scope>import</scope>
       </dependency>
       <dependency>
         <groupId>org.springframework.cloud</groupId>
