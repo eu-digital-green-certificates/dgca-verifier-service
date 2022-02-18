@@ -27,8 +27,8 @@ jobs:
         echo "APP_VERSION=${APP_LATEST_TAG}-${APP_SHA}" >> ${GITHUB_ENV}
     - name: copyContext
       run: |-
-        rm ./dgca-verifier-service/src/main/resources/static/context.json
-        echo ${{ secrets.CONTEXT_FILE }} > ./dgca-verifier-service/src/main/resources/static/context.json
+        rm ./src/main/resources/static/context.json
+        echo ${{ secrets.CONTEXT_FILE }} > ./src/main/resources/static/context.json
     - name: mvn
       run: |-
         mvn versions:set \
