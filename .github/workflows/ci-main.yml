@@ -28,7 +28,7 @@ jobs:
     - name: copyContext
       run: |-
         rm ./src/main/resources/static/context.json
-        echo ${{ secrets.CONTEXT_FILE }} > ./src/main/resources/static/context.json
+        echo '${{ secrets.CONTEXT_FILE }}' > ./src/main/resources/static/context.json
     - name: mvn
       run: |-
         mvn versions:set \
