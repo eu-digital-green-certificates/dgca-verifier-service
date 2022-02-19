@@ -37,11 +37,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import eu.europa.ec.dgc.verifier.config.DgcConfigProperties;
+
 @RestController
 @RequestMapping("/context")
 @Slf4j
 public class ContextController {
 
+    private DgcConfigProperties properties;
     /**
      * Http Method for getting the current context.
      */
@@ -70,9 +73,19 @@ public class ContextController {
         }
     )
     public ResponseEntity<String> getContext() {
-        Resource resource = new ClassPathResource("/static/context.json");
         try {
-            return  ResponseEntity.ok(IOUtils.toString(resource.getInputStream(), StandardCharsets.UTF_8));
+
+            String context = null;
+
+            if(properties.getContext().isEmpty()) {
+                Resource resource = new ClassPathResource("/static/context.json");
+                context = IOUtils.toString(resource.getInputStream(), StandardCharsets.UTF_8);
+            } 
+            else {
+                context = properties.getContext();
+            }
+ 
+            return  ResponseEntity.ok(context);
         } catch (IOException e) {
             log.error("Could not read context file");
         }
