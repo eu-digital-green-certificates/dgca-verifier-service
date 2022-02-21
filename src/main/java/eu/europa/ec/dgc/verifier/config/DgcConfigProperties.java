@@ -31,7 +31,7 @@ public class DgcConfigProperties {
 
     private final CertificatesDownloader certificatesDownloader = new CertificatesDownloader();
 
-    private final String Context = "";
+    private final String context = "";
     @Getter
     @Setter
     public static class CertificatesDownloader {
