@@ -11,7 +11,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create
   liquibase:
     change-log: classpath:db/changelog.xml
   h2:
@@ -47,21 +47,26 @@ dgc:
   certificatesDownloader:
     timeInterval: 60000
     lockLimit: 1800000
+  trustedIssuerDownloader:
+    enabled: true
+    timeInterval: 60000
+    lockLimit: 1800000
   gateway:
     connector:
       enabled: true
-      endpoint: https://dgc-gateway.example.com
+      endpoint: ${DGC_GATEWAY_CONNECTOR_ENDPOINT}
       proxy:
         enabled: false
       max-cache-age: 300
       tls-trust-store:
-        password: dgcg-p4ssw0rd
-        path: classpath:tls_trust_store.p12
+        password: ${DGC_GATEWAY_CONNECTOR_TLSTRUSTSTORE_PASSWORD}
+        path: ${DGC_GATEWAY_CONNECTOR_TLSTRUSTSTORE_PATH}
       tls-key-store:
-        alias: 1
-        password: dgcg-p4ssw0rd
-        path: classpath:tls_key_store.p12
+        alias: ${DGC_GATEWAY_CONNECTOR_TLSKEYSTORE_ALIAS}
+        password: ${DGC_GATEWAY_CONNECTOR_TLSKEYSTORE_PASSWORD}
+        path: ${DGC_GATEWAY_CONNECTOR_TLSKEYSTORE_PATH}
       trust-anchor:
-        alias: ta
-        password: dgcg-p4ssw0rd
-        path: classpath:trust_anchor.jks
+        alias: ${DGC_GATEWAY_CONNECTOR_TRUSTANCHOR_ALIAS}
+        password: ${DGC_GATEWAY_CONNECTOR_TRUSTANCHOR_PASSWORD}
+        path: ${DGC_GATEWAY_CONNECTOR_TRUSTANCHOR_PATH}
+

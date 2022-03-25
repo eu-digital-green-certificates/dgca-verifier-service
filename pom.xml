@@ -39,7 +39,7 @@
     <bcpkix.version>1.70</bcpkix.version>
     <okhttp.version>4.9.2</okhttp.version>
     <shedlock.version>4.30.0</shedlock.version>
-    <dgc.lib.version>1.1.8</dgc.lib.version>
+    <dgc.lib.version>latest</dgc.lib.version>
     <sap.cloud.sdk.version>3.60.0</sap.cloud.sdk.version>
     <slf4j.version>1.7.32</slf4j.version>
     <!-- plugins -->
