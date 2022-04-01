@@ -24,16 +24,21 @@ package eu.europa.ec.dgc.verifier.service;
 import eu.europa.ec.dgc.gateway.connector.model.TrustListItem;
 import eu.europa.ec.dgc.verifier.entity.SignerInformationEntity;
 import eu.europa.ec.dgc.verifier.repository.SignerInformationRepository;
+import eu.europa.ec.dgc.verifier.restapi.dto.DeltaListDto;
 import eu.europa.ec.dgc.verifier.restapi.dto.KidDto;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+
 
 @Slf4j
 @Component
@@ -64,16 +69,25 @@ public class SignerInformationService {
      * @return A list of kids of all certificates found. If no certificate was found an empty list is returned.
      */
     public List<String> getListOfValidKids() {
-        ArrayList<String> responseArray = new ArrayList<>();
 
-        List<KidDto> validIds = signerInformationRepository.findAllByOrderByIdAsc();
+        List<SignerInformationEntity> certsList = signerInformationRepository.findAllByDeletedOrderByIdAsc(false);
 
-        for (KidDto validId : validIds) {
-            responseArray.add(validId.getKid());
-        }
+        return certsList.stream().map(c->c.getKid()).collect(Collectors.toList());
 
-        return responseArray;
     }
+
+    /**
+     * Method to get all deleted certificates stored in a map.
+     * @return A map with all deleted certificates.
+     */
+    public Map<String, SignerInformationEntity> getDeletedCertificates() {
+
+        List<SignerInformationEntity> deletedCertsList = signerInformationRepository.findAllByDeletedOrderByIdAsc(true);
+
+        return deletedCertsList.stream().collect(Collectors.toMap(SignerInformationEntity::getKid, c->c));
+
+    }
+
 
 
     /**
@@ -87,36 +101,76 @@ public class SignerInformationService {
 
         List<String> trustedCertsKids = trustedCerts.stream().map(TrustListItem::getKid).collect(Collectors.toList());
         List<String> alreadyStoredCerts = getListOfValidKids();
+        List<String> certsToDelete = new ArrayList<>();
+
 
         if (trustedCertsKids.isEmpty()) {
-            signerInformationRepository.deleteAll();
+            signerInformationRepository.setAllDeleted();
+            return;
         } else {
-            signerInformationRepository.deleteByKidNotIn(trustedCertsKids);
+            signerInformationRepository.setDeletedByKidsNotIn(trustedCertsKids);
         }
 
+
+        List<SignerInformationEntity> signerInformationEntities = new ArrayList<>();
 
         for (TrustListItem cert : trustedCerts) {
             if (!alreadyStoredCerts.contains(cert.getKid())) {
-                saveSignerCertificate(cert.getKid(),cert.getTimestamp(), cert.getRawData());
+                signerInformationEntities.add(getSingerInformationEntity(cert));
+                certsToDelete.add(cert.getKid());
             }
         }
+
+        //Delete all certificates that got updated, so that they get a new id.
+        signerInformationRepository.deleteByKidIn(certsToDelete);
+        signerInformationRepository.saveAllAndFlush(signerInformationEntities);
     }
 
-    /**
-     * Method adds a new SignerInformationEntity to the db.
-     *
-     * @param kid defines the kid of the new SignerInformationEntity.
-     * @param createdAt defines the createdAt timestamp of the new SignerInformationEntity.
-     * @param rawData defines the raw certificate data of the new SignerInformationEntity.
-     *
-     */
-    private void saveSignerCertificate(String kid, ZonedDateTime createdAt, String rawData) {
+
+    private SignerInformationEntity getSingerInformationEntity(TrustListItem cert) {
         SignerInformationEntity signerEntity = new SignerInformationEntity();
-        signerEntity.setKid(kid);
-        signerEntity.setCreatedAt(createdAt);
-        signerEntity.setRawData(rawData);
+        signerEntity.setKid(cert.getKid());
+        signerEntity.setCreatedAt(cert.getTimestamp());
+        signerEntity.setCountry(cert.getCountry());
+        signerEntity.setThumbprint((cert.getThumbprint()));
+        signerEntity.setRawData(cert.getRawData());
 
-        signerInformationRepository.save(signerEntity);
+        return signerEntity;
     }
 
+    public DeltaListDto getDeltaList() {
+
+        List<SignerInformationEntity> certs =
+            signerInformationRepository.findAllByOrderByIdAsc();
+
+        Map<Boolean,List<String>> partitioned =
+            certs.stream().collect(Collectors.partitioningBy(SignerInformationEntity::isDeleted,
+                Collectors.mapping(c -> c.getKid(), Collectors.toList())));
+
+        return new DeltaListDto(partitioned.get(Boolean.FALSE),partitioned.get(Boolean.TRUE));
+
+    }
+
+
+    public DeltaListDto getDeltaList(ZonedDateTime ifModifiedDateTime) {
+
+        List<SignerInformationEntity> certs =
+            signerInformationRepository.findAllByUpdatedAtAfterOrderByIdAsc(ifModifiedDateTime);
+
+        Map<Boolean,List<String>> partitioned =
+            certs.stream().collect(Collectors.partitioningBy(SignerInformationEntity::isDeleted,
+                Collectors.mapping(c -> c.getKid(), Collectors.toList())));
+
+        return new DeltaListDto(partitioned.get(Boolean.FALSE),partitioned.get(Boolean.TRUE));
+
+    }
+
+    public Map<String, List<String>> getCertificatesData(List<String> requestedCertList) {
+
+        List<SignerInformationEntity> certs =
+            signerInformationRepository.findAllByKidIn(requestedCertList);
+
+        return certs.stream().collect(Collectors.groupingBy(SignerInformationEntity::getCountry,
+            Collectors.mapping(c -> c.getRawData(), Collectors.toList())));
+    }
 }

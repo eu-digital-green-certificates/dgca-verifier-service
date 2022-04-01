@@ -65,4 +65,30 @@ public class SignerInformationEntity {
     @Column(name = "raw_data", nullable = false, length = 4096)
     String rawData;
 
+    /**
+     * The country code of the cert.
+     */
+    @Column(name= "country")
+    private String country;
+
+    /**
+     * The thumbprint of the cert.
+     */
+    @Column(name= "thumbprint")
+    private String thumbprint;
+
+    /**
+     * Timestamp of the last record update.
+     */
+    @Column(name = "updated_at", nullable = false)
+    private ZonedDateTime updatedAt = ZonedDateTime.now();
+
+    /**
+     * Marks the record as deleted.
+     */
+    @Column(name = "deleted")
+    private boolean deleted = false;
+
+
+
 }

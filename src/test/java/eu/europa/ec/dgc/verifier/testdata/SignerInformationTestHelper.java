@@ -113,7 +113,11 @@ public class SignerInformationTestHelper {
             null,
             kid,
             ZonedDateTime.now(),
-            certStr
+            certStr,
+            "de",
+            "thumbprint",
+            ZonedDateTime.now(),
+            false
         );
 
         signerInformationRepository.save(cert);

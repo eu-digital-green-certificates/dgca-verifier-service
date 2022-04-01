@@ -21,6 +21,8 @@
 package eu.europa.ec.dgc.verifier.restapi.controller;
 
 import eu.europa.ec.dgc.verifier.entity.SignerInformationEntity;
+import eu.europa.ec.dgc.verifier.exception.BadRequestException;
+import eu.europa.ec.dgc.verifier.restapi.dto.DeltaListDto;
 import eu.europa.ec.dgc.verifier.service.SignerInformationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -31,13 +33,22 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Map;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -147,5 +158,100 @@ public class SignerInformationController {
 
         return ResponseEntity.ok(signerInformationService.getListOfValidKids());
     }
+
+
+
+    /**
+     * Http Method for getting delta list of certificates changes.
+     */
+    @GetMapping(path = "/signercertificateStatus/delta", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(
+        summary = "Gets a list of kids from all valid certificates.",
+        tags = {"Signer Information"},
+        description = "Gets a list of kids from all valid certificates. This list can be used to verify, that the "
+            + "downloaded certificates are still valid. If a kid of a downloaded certificate is not part of the list, "
+            + "the certificate is not valid any more.",
+        parameters = {
+            @Parameter(
+                in = ParameterIn.HEADER,
+                name = "If-Modified-Since",
+                description = "Returns only the objects which are modified behind the given date.",
+                required = false,
+                schema = @Schema(implementation = String.class))},
+        responses = {
+            @ApiResponse(
+                responseCode = "200",
+                description = "Returns a list of kids of all valid certificates.",
+                content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = DeltaListDto.class)
+                   ))
+        })
+    public ResponseEntity<DeltaListDto> getDeltaList(
+        @RequestHeader(value = HttpHeaders.IF_MODIFIED_SINCE, required = false) String ifModifiedSince) {
+
+        DeltaListDto result;
+
+        if (ifModifiedSince != null) {
+            ZonedDateTime ifModifiedDateTime = parseIfModifiedSinceHeader(ifModifiedSince);
+            result = signerInformationService.getDeltaList(ifModifiedDateTime);
+        } else {
+            result = signerInformationService.getDeltaList();
+        }
+
+        return ResponseEntity.ok(result);
+    }
+
+    private ZonedDateTime parseIfModifiedSinceHeader(String ifModifiedSince) throws BadRequestException {
+        ZonedDateTime ifModifiedDateTime;
+        try {
+            ifModifiedDateTime = ZonedDateTime.parse(ifModifiedSince);
+        } catch (DateTimeParseException e) {
+            try {
+                ifModifiedDateTime = ZonedDateTime.parse(ifModifiedSince,  DateTimeFormatter.RFC_1123_DATE_TIME);
+            } catch (DateTimeParseException ex) {
+                throw new BadRequestException("Can not parse if-modified-since header");
+            }
+        }
+        return ifModifiedDateTime;
+    }
+
+    /**
+     * Http Method for looking up certificate data.
+     * @param requestedCertList  list of kids, for which the data should be returned
+     *
+     * @return the requested certificate data.
+     */
+    @PostMapping(path = "signercertificateUpdate",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(
+        summary = "Returns the data for the requested certificates.",
+        description = "Returns the certificate data for all kids in the request body.",
+        tags = {"Signer Information"},
+        requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            required = true,
+            content = @Content(array = @ArraySchema(
+                schema = @Schema(implementation = String.class, name = "kid")))
+        ),
+        responses = {
+            @ApiResponse(
+                responseCode = "200",
+                description = "Returns the certificate data.",
+                content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    examples = {@ExampleObject(value = "{ \n"
+                        + "  “DE”: [“MII….”,”MII…”],\n"
+                        + "  “NL”: [“MII…”,”MII…”]\n"
+                        + "}\n")} )
+            )
+        }
+    )
+    public ResponseEntity<Map<String, List<String>>> lookupCertificateData(
+        @Valid @RequestBody(required = true) List<String> requestedCertList) {
+
+         return ResponseEntity.ok(signerInformationService.getCertificatesData(requestedCertList));
+
+    }
+
 
 }
