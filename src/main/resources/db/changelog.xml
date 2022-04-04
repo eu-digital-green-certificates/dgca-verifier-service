@@ -5,6 +5,7 @@
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
   <include file="db/changelog/init-tables.xml"/>
-
-
+  <include file="db/changelog/alter-signer-information.xml"/>
+  <include file="db/changelog/create-info-table.xml"/>
+  <include file="db/changelog/create-trusted-issuer-table.xml"/>
 </databaseChangeLog>
