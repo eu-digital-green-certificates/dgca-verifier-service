@@ -22,6 +22,7 @@ package eu.europa.ec.dgc.verifier.restapi.controller;
 
 import eu.europa.ec.dgc.verifier.entity.SignerInformationEntity;
 import eu.europa.ec.dgc.verifier.exception.BadRequestException;
+import eu.europa.ec.dgc.verifier.restapi.dto.CertificatesLookupResponseItemDto;
 import eu.europa.ec.dgc.verifier.restapi.dto.DeltaListDto;
 import eu.europa.ec.dgc.verifier.service.SignerInformationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,11 +43,9 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -76,7 +75,7 @@ public class SignerInformationController {
             + "download all available certificates, start calling this method without the resume token set. Then repeat"
             + " to call this method, with the resume token parameter set to the value of the last response. When you "
             + "receive a 204 response you have downloaded all available certificates.",
-        tags = {"Signer Information"},
+        tags = {"Signer Information" },
         parameters = {
             @Parameter(
                 in = ParameterIn.HEADER,
@@ -101,15 +100,13 @@ public class SignerInformationController {
                 content = @Content(
                     mediaType = MediaType.TEXT_PLAIN_VALUE,
                     schema = @Schema(implementation = String.class),
-                    examples = {
-                        @ExampleObject(value =
-                            "MIIBGzCBwqADAgECAgRggUObMAoGCCqGSM49BAMCMBYxFDASBgNVBAMMC2VkZ2Nf"
+                    examples = {@ExampleObject(value =
+                          "MIIBGzCBwqADAgECAgRggUObMAoGCCqGSM49BAMCMBYxFDASBgNVBAMMC2VkZ2Nf"
                             + "ZGV2X2VjMB4XDTIxMDQyMjA5MzYyN1oXDTIyMDQyMjA5MzYyN1owFjEUMBIGA1UE"
                             + "AwwLZWRnY19kZXZfZWMwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAQVQc9JY190"
                             + "s/Jn0CBSq/AWuxmqUzRVu+AsCe6gfbqk3s0e4jonzp5v/5IMW/9t7v5Fu2ITMmOT"
                             + "VfKL1TuM+aixMAoGCCqGSM49BAMCA0gAMEUCIQCGWIk6ZET3afRxdpFVuXdrEYtF"
-                            + "iR1MGDx4HweZfspjSgIgBdCJsT746/FI3euIbzKDoeY65m+Qx2/4Cd/vOayNbuw="
-                            )})),
+                            + "iR1MGDx4HweZfspjSgIgBdCJsT746/FI3euIbzKDoeY65m+Qx2/4Cd/vOayNbuw=")})),
             @ApiResponse(
                 responseCode = "204",
                 description = "No Content available. All certificates already downloaded.",
@@ -141,7 +138,7 @@ public class SignerInformationController {
     @GetMapping(path = "/signercertificateStatus", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(
         summary = "Gets a list of kids from all valid certificates.",
-        tags = {"Signer Information"},
+        tags = {"Signer Information" },
         description = "Gets a list of kids from all valid certificates. This list can be used to verify, that the "
             + "downloaded certificates are still valid. If a kid of a downloaded certificate is not part of the list, "
             + "the certificate is not valid any more.",
@@ -160,14 +157,13 @@ public class SignerInformationController {
     }
 
 
-
     /**
      * Http Method for getting delta list of certificates changes.
      */
     @GetMapping(path = "/signercertificateStatus/delta", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(
         summary = "Gets a list of kids from all valid certificates.",
-        tags = {"Signer Information"},
+        tags = {"Signer Information" },
         description = "Gets a list of kids from all valid certificates. This list can be used to verify, that the "
             + "downloaded certificates are still valid. If a kid of a downloaded certificate is not part of the list, "
             + "the certificate is not valid any more.",
@@ -185,7 +181,7 @@ public class SignerInformationController {
                 content = @Content(
                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = DeltaListDto.class)
-                   ))
+                ))
         })
     public ResponseEntity<DeltaListDto> getDeltaList(
         @RequestHeader(value = HttpHeaders.IF_MODIFIED_SINCE, required = false) String ifModifiedSince) {
@@ -208,7 +204,7 @@ public class SignerInformationController {
             ifModifiedDateTime = ZonedDateTime.parse(ifModifiedSince);
         } catch (DateTimeParseException e) {
             try {
-                ifModifiedDateTime = ZonedDateTime.parse(ifModifiedSince,  DateTimeFormatter.RFC_1123_DATE_TIME);
+                ifModifiedDateTime = ZonedDateTime.parse(ifModifiedSince, DateTimeFormatter.RFC_1123_DATE_TIME);
             } catch (DateTimeParseException ex) {
                 throw new BadRequestException("Can not parse if-modified-since header");
             }
@@ -218,8 +214,8 @@ public class SignerInformationController {
 
     /**
      * Http Method for looking up certificate data.
-     * @param requestedCertList  list of kids, for which the data should be returned
      *
+     * @param requestedCertList list of kids, for which the data should be returned
      * @return the requested certificate data.
      */
     @PostMapping(path = "signercertificateUpdate",
@@ -228,7 +224,7 @@ public class SignerInformationController {
     @Operation(
         summary = "Returns the data for the requested certificates.",
         description = "Returns the certificate data for all kids in the request body.",
-        tags = {"Signer Information"},
+        tags = {"Signer Information" },
         requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
             required = true,
             content = @Content(array = @ArraySchema(
@@ -239,17 +235,13 @@ public class SignerInformationController {
                 responseCode = "200",
                 description = "Returns the certificate data.",
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    examples = {@ExampleObject(value = "{ \n"
-                        + "  “DE”: [“MII….”,”MII…”],\n"
-                        + "  “NL”: [“MII…”,”MII…”]\n"
-                        + "}\n")} )
-            )
+                    examples = {@ExampleObject(value = "{ \n  “DE”: [“MII….”,”MII…”],\n  “NL”: [“MII…”,”MII…”]\n}\n")}))
         }
     )
-    public ResponseEntity<Map<String, List<String>>> lookupCertificateData(
+    public ResponseEntity<Map<String, List<CertificatesLookupResponseItemDto>>> lookupCertificateData(
         @Valid @RequestBody(required = true) List<String> requestedCertList) {
 
-         return ResponseEntity.ok(signerInformationService.getCertificatesData(requestedCertList));
+        return ResponseEntity.ok(signerInformationService.getCertificatesData(requestedCertList));
 
     }
 

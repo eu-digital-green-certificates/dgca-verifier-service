@@ -24,6 +24,7 @@ package eu.europa.ec.dgc.verifier.service;
 import eu.europa.ec.dgc.gateway.connector.model.TrustListItem;
 import eu.europa.ec.dgc.verifier.entity.SignerInformationEntity;
 import eu.europa.ec.dgc.verifier.repository.SignerInformationRepository;
+import eu.europa.ec.dgc.verifier.restapi.dto.CertificatesLookupResponseItemDto;
 import eu.europa.ec.dgc.verifier.restapi.dto.DeltaListDto;
 import eu.europa.ec.dgc.verifier.restapi.dto.KidDto;
 import java.time.ZonedDateTime;
@@ -72,7 +73,7 @@ public class SignerInformationService {
 
         List<SignerInformationEntity> certsList = signerInformationRepository.findAllByDeletedOrderByIdAsc(false);
 
-        return certsList.stream().map(c->c.getKid()).collect(Collectors.toList());
+        return certsList.stream().map(c -> c.getKid()).collect(Collectors.toList());
 
     }
 
@@ -84,7 +85,7 @@ public class SignerInformationService {
 
         List<SignerInformationEntity> deletedCertsList = signerInformationRepository.findAllByDeletedOrderByIdAsc(true);
 
-        return deletedCertsList.stream().collect(Collectors.toMap(SignerInformationEntity::getKid, c->c));
+        return deletedCertsList.stream().collect(Collectors.toMap(SignerInformationEntity::getKid, c -> c));
 
     }
 
@@ -138,6 +139,10 @@ public class SignerInformationService {
         return signerEntity;
     }
 
+    /**
+     * Gets the deleted/updated state of the certificates.
+     * @return state of the certificates represented by their kids
+     */
     public DeltaListDto getDeltaList() {
 
         List<SignerInformationEntity> certs =
@@ -151,7 +156,10 @@ public class SignerInformationService {
 
     }
 
-
+    /**
+     * Gets the deleted/updated state of the certificates after the given value.
+     * @return state of the certificates represented by their kids
+     */
     public DeltaListDto getDeltaList(ZonedDateTime ifModifiedDateTime) {
 
         List<SignerInformationEntity> certs =
@@ -165,12 +173,22 @@ public class SignerInformationService {
 
     }
 
-    public Map<String, List<String>> getCertificatesData(List<String> requestedCertList) {
+    /**
+     * Gets the raw data of the certificates for a given kid list.
+     * @param requestedCertList list of kids
+     * @return raw data of certificates
+     */
+    public Map<String, List<CertificatesLookupResponseItemDto>> getCertificatesData(List<String> requestedCertList) {
 
         List<SignerInformationEntity> certs =
             signerInformationRepository.findAllByKidIn(requestedCertList);
 
         return certs.stream().collect(Collectors.groupingBy(SignerInformationEntity::getCountry,
-            Collectors.mapping(c -> c.getRawData(), Collectors.toList())));
+            Collectors.mapping(c -> map(c), Collectors.toList())));
     }
+
+    private CertificatesLookupResponseItemDto map(SignerInformationEntity entity) {
+        return new CertificatesLookupResponseItemDto(entity.getKid(), entity.getRawData());
+    }
+
 }

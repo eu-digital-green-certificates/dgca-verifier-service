@@ -68,13 +68,13 @@ public class SignerInformationEntity {
     /**
      * The country code of the cert.
      */
-    @Column(name= "country")
+    @Column(name = "country")
     private String country;
 
     /**
      * The thumbprint of the cert.
      */
-    @Column(name= "thumbprint")
+    @Column(name = "thumbprint")
     private String thumbprint;
 
     /**
