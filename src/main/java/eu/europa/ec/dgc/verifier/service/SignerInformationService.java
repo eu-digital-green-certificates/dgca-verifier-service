@@ -26,10 +26,8 @@ import eu.europa.ec.dgc.verifier.entity.SignerInformationEntity;
 import eu.europa.ec.dgc.verifier.repository.SignerInformationRepository;
 import eu.europa.ec.dgc.verifier.restapi.dto.CertificatesLookupResponseItemDto;
 import eu.europa.ec.dgc.verifier.restapi.dto.DeltaListDto;
-import eu.europa.ec.dgc.verifier.restapi.dto.KidDto;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -38,7 +36,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
 
 
 @Slf4j

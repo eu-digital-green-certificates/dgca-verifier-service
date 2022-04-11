@@ -155,7 +155,7 @@ class SignerInformationServiceTest {
 
         signerInformationService.updateTrustedCertsList(trustList);
 
-        List<SignerInformationEntity> repositoryItems = signerInformationRepository.findAll();
+        List<SignerInformationEntity> repositoryItems = signerInformationRepository.findAllByDeletedOrderByIdAsc(false);
 
         Assertions.assertEquals(2, repositoryItems.size());
 
@@ -179,7 +179,7 @@ class SignerInformationServiceTest {
 
         signerInformationService.updateTrustedCertsList(trustList);
 
-        List<SignerInformationEntity> repositoryItems = signerInformationRepository.findAll();
+        List<SignerInformationEntity> repositoryItems = signerInformationRepository.findAllByDeletedOrderByIdAsc(false);
 
         Assertions.assertEquals(0, repositoryItems.size());
 

@@ -37,7 +37,7 @@ class SignerCertificateDownloadServiceImplTest {
 
         signerCertificateDownloadService.downloadCertificates();
 
-        List<SignerInformationEntity> repositoryItems = signerInformationRepository.findAll();
+        List<SignerInformationEntity> repositoryItems = signerInformationRepository.findAllByDeletedOrderByIdAsc(false);
         Assertions.assertEquals(0, repositoryItems.size());
     }
 
