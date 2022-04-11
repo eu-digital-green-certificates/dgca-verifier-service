@@ -5,6 +5,9 @@
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd"
   objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+  <changeSet id="delete old data" author="laurenz-simon">
+    <delete tableName="signer_information"/>
+  </changeSet>
   <changeSet id="alter-signer-information" author="laurenz-simon">
     <addColumn tableName="signer_information">
       <column name="country" type="varchar(2)"/>
