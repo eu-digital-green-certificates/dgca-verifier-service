@@ -31,8 +31,6 @@ class TrustedIssuerDownloadServiceImplTest {
     @MockBean
     DgcGatewayTrustedIssuerDownloadConnector dgcGatewayDownloadConnector;
 
-    @Autowired
-    SignerCertificateDownloadServiceImpl signerCertificateDownloadService;
 
     @Autowired
     TrustedIssuerDownloadServiceImpl trustedIssuerDownloadService;
@@ -44,7 +42,7 @@ class TrustedIssuerDownloadServiceImplTest {
     TrustedIssuerTestHelper trustedIssuerTestHelper;
 
     @Test
-    void downloadEmptyCertificatesList() {
+    void downloadEmptyIssuerList() {
         ArrayList<TrustedIssuer> trustList = new ArrayList<>();
         Mockito.when(dgcGatewayDownloadConnector.getTrustedIssuers()).thenReturn(trustList);
 
@@ -55,7 +53,7 @@ class TrustedIssuerDownloadServiceImplTest {
     }
 
     @Test
-    void downloadCertificates() {
+    void downloadIssuers() {
         List<TrustedIssuer> trustedIssuers = trustedIssuerTestHelper.getTrustedIssuerList();
 
         Mockito.when(dgcGatewayDownloadConnector.getTrustedIssuers()).thenReturn(trustedIssuers);

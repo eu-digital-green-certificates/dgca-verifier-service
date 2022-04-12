@@ -20,6 +20,7 @@
 
 package eu.europa.ec.dgc.verifier.restapi.controller;
 
+import eu.europa.ec.dgc.verifier.config.DgcConfigProperties;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -27,6 +28,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.ClassPathResource;
@@ -40,7 +42,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/context")
 @Slf4j
+@RequiredArgsConstructor
 public class ContextController {
+
+    private final DgcConfigProperties properties;
 
     /**
      * Http Method for getting the current context.
@@ -70,9 +75,18 @@ public class ContextController {
         }
     )
     public ResponseEntity<String> getContext() {
-        Resource resource = new ClassPathResource("/static/context.json");
         try {
-            return  ResponseEntity.ok(IOUtils.toString(resource.getInputStream(), StandardCharsets.UTF_8));
+
+            String context = null;
+
+            if (properties.getContext().isEmpty()) {
+                Resource resource = new ClassPathResource("/static/context.json");
+                context = IOUtils.toString(resource.getInputStream(), StandardCharsets.UTF_8);
+            } else {
+                context = properties.getContext();
+            }
+ 
+            return  ResponseEntity.ok(context);
         } catch (IOException e) {
             log.error("Could not read context file");
         }

@@ -24,7 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class ContextControllerIntegrationTest {
+@TestPropertySource(properties = {"dgc.context={\"testContext\": true}"})
+class ContextControllerWithEnvironmentIntegrationTest {
 
     @MockBean
     DgcGatewayDownloadConnector dgcGatewayDownloadConnector;
@@ -37,21 +38,11 @@ class ContextControllerIntegrationTest {
         mockMvc.perform(get("/context"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(result -> assertContextStrEqualFile(result));
+            .andExpect(content().json("{\"testContext\": true}"));
     }
 
 
-    private void assertContextStrEqualFile(MvcResult result) throws UnsupportedEncodingException {
-        String resultContext = result.getResponse().getContentAsString();
-        Resource resource = new ClassPathResource("/static/context.json");
-        String fileContext = null;
-        try {
-            fileContext = IOUtils.toString(resource.getInputStream(), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            Assertions.fail(e);
-        }
-        Assertions.assertEquals(resultContext, fileContext);
-    }
+
 
 }
 

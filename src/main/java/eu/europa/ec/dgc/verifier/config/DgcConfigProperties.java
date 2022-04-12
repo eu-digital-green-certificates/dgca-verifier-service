@@ -33,6 +33,8 @@ public class DgcConfigProperties {
 
     private final TrustedIssuerDownloader trustedIssuerDownloader = new TrustedIssuerDownloader();
 
+    private String context = "";
+
     @Getter
     @Setter
     public static class CertificatesDownloader {
