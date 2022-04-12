@@ -1,9 +1,8 @@
 package eu.europa.ec.dgc.verifier.restapi.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.util.List;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 
 
 @Schema(
@@ -14,7 +13,7 @@ import lombok.Data;
         + "\"deleted\":[\"3115adf=\"]\n"
         + "}"
 )
-@Data
+@Getter
 @AllArgsConstructor
 public class CertificatesLookupResponseItemDto {
     String kid;

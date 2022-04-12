@@ -25,18 +25,8 @@ public class BadRequestException extends RuntimeException {
         return status;
     }
 
-    private final int status = 400;
+    private static final int status = 400;
 
-    /**
-     * Constructor for BadRequestException.
-     *
-     * @param message Massage of the exception.
-     * @param inner Inner exception information
-     */
-    public BadRequestException(String message, Throwable inner) {
-
-        super(message, inner);
-    }
 
     /**
      * Constructor for BadRequestException.

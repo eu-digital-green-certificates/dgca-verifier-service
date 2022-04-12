@@ -74,20 +74,7 @@ public class SignerInformationService {
 
     }
 
-    /**
-     * Method to get all deleted certificates stored in a map.
-     * @return A map with all deleted certificates.
-     */
-    public Map<String, SignerInformationEntity> getDeletedCertificates() {
-
-        List<SignerInformationEntity> deletedCertsList = signerInformationRepository.findAllByDeletedOrderByIdAsc(true);
-
-        return deletedCertsList.stream().collect(Collectors.toMap(SignerInformationEntity::getKid, c -> c));
-
-    }
-
-
-
+    
     /**
      * Method to synchronise the certificates in the db with the given List of trusted certificates.
      *
