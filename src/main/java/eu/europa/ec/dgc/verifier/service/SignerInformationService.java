@@ -70,11 +70,11 @@ public class SignerInformationService {
 
         List<SignerInformationEntity> certsList = signerInformationRepository.findAllByDeletedOrderByIdAsc(false);
 
-        return certsList.stream().map(c -> c.getKid()).collect(Collectors.toList());
+        return certsList.stream().map(SignerInformationEntity::getKid).collect(Collectors.toList());
 
     }
 
-    
+
     /**
      * Method to synchronise the certificates in the db with the given List of trusted certificates.
      *
@@ -134,7 +134,7 @@ public class SignerInformationService {
 
         Map<Boolean,List<String>> partitioned =
             certs.stream().collect(Collectors.partitioningBy(SignerInformationEntity::isDeleted,
-                Collectors.mapping(c -> c.getKid(), Collectors.toList())));
+                Collectors.mapping(SignerInformationEntity::getKid, Collectors.toList())));
 
         return new DeltaListDto(partitioned.get(Boolean.FALSE),partitioned.get(Boolean.TRUE));
 
@@ -151,7 +151,7 @@ public class SignerInformationService {
 
         Map<Boolean,List<String>> partitioned =
             certs.stream().collect(Collectors.partitioningBy(SignerInformationEntity::isDeleted,
-                Collectors.mapping(c -> c.getKid(), Collectors.toList())));
+                Collectors.mapping(SignerInformationEntity::getKid, Collectors.toList())));
 
         return new DeltaListDto(partitioned.get(Boolean.FALSE),partitioned.get(Boolean.TRUE));
 
@@ -168,7 +168,7 @@ public class SignerInformationService {
             signerInformationRepository.findAllByKidIn(requestedCertList);
 
         return certs.stream().collect(Collectors.groupingBy(SignerInformationEntity::getCountry,
-            Collectors.mapping(c -> map(c), Collectors.toList())));
+            Collectors.mapping(this::map, Collectors.toList())));
     }
 
     private CertificatesLookupResponseItemDto map(SignerInformationEntity entity) {
