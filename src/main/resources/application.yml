@@ -45,12 +45,12 @@ springdoc:
     path: /swagger
 dgc:
   certificatesDownloader:
-    timeInterval: 60000
-    lockLimit: 1800000
+    timeInterval: 1800000
+    lockLimit: 3600000
   trustedIssuerDownloader:
     enabled: true
-    timeInterval: 60000
-    lockLimit: 1800000
+    timeInterval: 1800000
+    lockLimit: 3600000
   gateway:
     connector:
       enabled: true
