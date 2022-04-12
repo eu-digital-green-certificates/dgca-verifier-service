@@ -20,7 +20,7 @@
 
 package eu.europa.ec.dgc.verifier.service;
 
-
+import com.google.code.beanmatchers.BeanMatchers;
 import eu.europa.ec.dgc.gateway.connector.DgcGatewayDownloadConnector;
 import eu.europa.ec.dgc.gateway.connector.model.TrustListItem;
 import eu.europa.ec.dgc.verifier.dto.TrustedIssuerDto;
@@ -37,6 +37,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+
+import static com.google.code.beanmatchers.BeanMatchers.hasValidBeanConstructor;
+import static com.google.code.beanmatchers.BeanMatchers.hasValidBeanEquals;
+import static com.google.code.beanmatchers.BeanMatchers.hasValidBeanHashCode;
+import static com.google.code.beanmatchers.BeanMatchers.hasValidBeanToString;
+import static com.google.code.beanmatchers.BeanMatchers.hasValidGettersAndSetters;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
 
 
 @SpringBootTest
@@ -190,6 +198,9 @@ class SignerInformationServiceTest {
 
     @Test
     void dataTypeTests() {
+
+        assertThat(DeltaListDto.class, allOf(hasValidBeanConstructor(), hasValidBeanEquals(),
+            hasValidGettersAndSetters(), hasValidBeanHashCode(), hasValidBeanToString()));
         List<String> updated = new ArrayList<>();
         updated.add("updated");
         List<String> deleted = new ArrayList<>();
@@ -209,6 +220,11 @@ class SignerInformationServiceTest {
         Assertions.assertEquals("url",issuer.getUrl());
         issuer.setUrl("newUrl");
         Assertions.assertEquals("newUrl",issuer.getUrl());
+
+        BeanMatchers.registerValueGenerator(ZonedDateTime::now, ZonedDateTime.class);
+
+        assertThat(TrustedIssuerDto.class, allOf(hasValidBeanConstructor(), hasValidBeanEquals(),
+            hasValidGettersAndSetters(), hasValidBeanHashCode(), hasValidBeanToString()));
 
     }
 

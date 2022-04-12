@@ -259,6 +259,13 @@
       <groupId>com.sap.hcp.cf.logging</groupId>
       <artifactId>cf-java-logging-support-logback</artifactId>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/com.google.code.bean-matchers/bean-matchers -->
+    <dependency>
+      <groupId>com.google.code.bean-matchers</groupId>
+      <artifactId>bean-matchers</artifactId>
+      <version>0.13</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
