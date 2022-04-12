@@ -17,7 +17,7 @@
     </addColumn>
     <addColumn tableName="signer_information">
       <column name="updated_at" type="timestamp with time zone">
-        <constraints nullable="false"/> >
+        <constraints nullable="false"/>
       </column>
     </addColumn>
     <addColumn tableName="signer_information">
