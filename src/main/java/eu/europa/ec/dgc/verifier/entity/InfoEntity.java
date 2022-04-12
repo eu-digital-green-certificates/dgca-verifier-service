@@ -41,8 +41,8 @@ public class InfoEntity {
      * The KID of the Key used to sign the CMS.
      */
     @Id
-    @Column(name = "identifierKey")
-    private String key;
+    @Column(name = "identifier_key")
+    private String identifierKey;
 
     /**
      * Type of Revocation Hashes.

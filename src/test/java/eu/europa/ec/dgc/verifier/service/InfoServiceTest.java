@@ -66,7 +66,7 @@ class InfoServiceTest {
         List<InfoEntity> entities = infoRepository.findAll();
 
         Assertions.assertEquals(1, entities.size());
-        Assertions.assertEquals("TestKey", entities.get(0).getKey());
+        Assertions.assertEquals("TestKey", entities.get(0).getIdentifierKey());
         Assertions.assertEquals("TestValue", entities.get(0).getValue());
 
     }
