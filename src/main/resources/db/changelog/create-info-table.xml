@@ -7,7 +7,7 @@
   <changeSet id="create-info-table" author="laurenz-simon">
     <createTable tableName="vs_info">
       <column name="identifierKey" type="VARCHAR(255)">
-        <constraints nullable="false" primaryKey="true" primaryKeyName="pk_info"/>
+        <constraints nullable="false" primaryKey="true" primaryKeyName="pk_vs_info"/>
       </column>
       <column name="property_value" type="VARCHAR(255)"/>
     </createTable>
