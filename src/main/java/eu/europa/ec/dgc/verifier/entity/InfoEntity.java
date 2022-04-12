@@ -34,20 +34,20 @@ import lombok.Setter;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "info")
+@Table(name = "vs_info")
 public class InfoEntity {
 
     /**
      * The KID of the Key used to sign the CMS.
      */
     @Id
-    @Column(name = "key")
+    @Column(name = "identifierKey")
     private String key;
 
     /**
      * Type of Revocation Hashes.
      */
-    @Column(name = "value")
+    @Column(name = "property_value")
     private String value;
 
 }
