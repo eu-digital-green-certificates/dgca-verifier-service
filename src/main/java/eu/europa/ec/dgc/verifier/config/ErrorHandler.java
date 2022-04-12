@@ -20,6 +20,7 @@
 
 package eu.europa.ec.dgc.verifier.config;
 
+import eu.europa.ec.dgc.verifier.exception.BadRequestException;
 import eu.europa.ec.dgc.verifier.restapi.dto.ProblemReportDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +38,19 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RequiredArgsConstructor
 @Slf4j
 public class ErrorHandler extends ResponseEntityExceptionHandler {
+
+    /**
+     * Handles {@link BadRequestException} when a validation failed.
+     *
+     * @param e the thrown {@link BadRequestException}
+     * @return A ResponseEntity with a ErrorMessage inside.
+     */
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<Object> handleException(BadRequestException e) {
+        return ResponseEntity
+            .status(e.getStatus())
+            .body(e.getMessage());
+    }
 
 
     /**
@@ -60,4 +74,6 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
                 .body(new ProblemReportDto("0x500", "Internal Server Error", "", ""));
         }
     }
+
+
 }

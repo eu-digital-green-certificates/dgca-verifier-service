@@ -113,7 +113,36 @@ public class SignerInformationTestHelper {
             null,
             kid,
             ZonedDateTime.now(),
-            certStr
+            certStr,
+            "de",
+            "thumbprint",
+            ZonedDateTime.now(),
+            false
+        );
+
+        signerInformationRepository.save(cert);
+
+        return cert.getId();
+    }
+
+    public Long insertCertString(String certStr, String country,
+                                 String thumbprint, ZonedDateTime date, boolean deleted) {
+        String kid;
+        try {
+            kid = certificateUtils.getCertKid(convertStringToX509Cert(certStr));
+        }catch (CertificateException e) {
+            kid = "kid_"+ ZonedDateTime.now();
+        }
+
+        SignerInformationEntity cert = new SignerInformationEntity(
+            null,
+            kid,
+            ZonedDateTime.now(),
+            certStr,
+            country,
+            thumbprint,
+            date,
+            deleted
         );
 
         signerInformationRepository.save(cert);

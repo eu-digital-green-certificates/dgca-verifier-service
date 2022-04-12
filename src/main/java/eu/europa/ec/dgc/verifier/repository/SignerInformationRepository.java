@@ -22,10 +22,13 @@ package eu.europa.ec.dgc.verifier.repository;
 
 
 import eu.europa.ec.dgc.verifier.entity.SignerInformationEntity;
-import eu.europa.ec.dgc.verifier.restapi.dto.KidDto;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 
 public interface SignerInformationRepository extends JpaRepository<SignerInformationEntity, Long> {
@@ -34,8 +37,24 @@ public interface SignerInformationRepository extends JpaRepository<SignerInforma
 
     Optional<SignerInformationEntity> findFirstByIdGreaterThanOrderByIdAsc(Long id);
 
-    List<KidDto> findAllByOrderByIdAsc();
+    List<SignerInformationEntity> findAllByOrderByIdAsc();
+
+    @Modifying
+    @Query("UPDATE SignerInformationEntity s SET s.deleted = true WHERE s.kid not in :kids")
+    void setDeletedByKidsNotIn(@Param("kids") List<String> kids);
+
+    @Modifying
+    @Query("UPDATE SignerInformationEntity s SET s.deleted = true")
+    void setAllDeleted();
 
     void deleteByKidNotIn(List<String> kids);
 
+
+    List<SignerInformationEntity> findAllByDeletedOrderByIdAsc(boolean deleted);
+
+    void deleteByKidIn(List<String> kids);
+
+    List<SignerInformationEntity> findAllByUpdatedAtAfterOrderByIdAsc(ZonedDateTime ifModifiedDateTime);
+
+    List<SignerInformationEntity> findAllByKidIn(List<String> kids);
 }

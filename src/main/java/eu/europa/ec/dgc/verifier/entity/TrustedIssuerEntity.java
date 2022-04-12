@@ -23,6 +23,8 @@ package eu.europa.ec.dgc.verifier.entity;
 import java.time.ZonedDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,10 +39,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "signer_information")
+@Table(name = "trusted_issuer")
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignerInformationEntity {
+public class TrustedIssuerEntity {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,47 +51,70 @@ public class SignerInformationEntity {
     private Long id;
 
     /**
-     * Unique Identifier of the cert.
+     * The revoked hash.
      */
-    @Column(name = "kid", length = 50, nullable = false)
-    private String kid;
+    @Column(name = "etag", nullable = false, length = 36)
+    private String etag;
 
     /**
-     * Timestamp of the Record creation.
+     * Timestamp of the Record.
      */
     @Column(name = "created_at", nullable = false)
     private ZonedDateTime createdAt = ZonedDateTime.now();
 
     /**
-     * Base64 encoded certificate raw data.
+     * ISO 3166 Alpha-2 Country Code
+     * (plus code "EU" for administrative European Union entries).
      */
-    @Column(name = "raw_data", nullable = false, length = 4096)
-    String rawData;
-
-    /**
-     * The country code of the cert.
-     */
-    @Column(name = "country")
+    @Column(name = "country", nullable = false, length = 2)
     private String country;
 
     /**
-     * The thumbprint of the cert.
+     * URL of the service, can be HTTP(s) or DID URL.
      */
-    @Column(name = "thumbprint")
+    @Column(name = "url", nullable = false, length = 1024)
+    private String url;
+
+    /**
+     * Name of the service.
+     */
+    @Column(name = "name", nullable = false, length = 512)
+    private String name;
+
+    /**
+     * Type of the URL (HTTP, DID).
+     */
+    @Column(name = "url_type", nullable = false, length = 25)
+    @Enumerated(EnumType.STRING)
+    private UrlType urlType;
+
+    /**
+     * SHA-256 Thumbprint of the certificate (hex encoded).
+     */
+    @Column(name = "thumbprint", length = 64)
     private String thumbprint;
 
     /**
-     * Timestamp of the last record update.
+     * SSL Certificate of the endpoint (if applicable).
      */
-    @Column(name = "updated_at", nullable = false)
-    private ZonedDateTime updatedAt = ZonedDateTime.now();
+    @Column(name = "ssl_public_key", length = 2048)
+    private String sslPublicKey;
 
     /**
-     * Marks the record as deleted.
+     * Type of Key Storage. E.g JWKS, DIDDocument etc. (If applicable)
      */
-    @Column(name = "deleted")
-    private boolean deleted = false;
+    @Column(name = "key_storage_type", length = 128)
+    private String keyStorageType;
 
+    /**
+     * Signature of the TrustAnchor.
+     */
+    @Column(name = "signature", nullable = false, length = 6000)
+    String signature;
 
+    public enum UrlType {
+        HTTP,
+        DID
+    }
 
 }
