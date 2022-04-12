@@ -22,10 +22,10 @@ package eu.europa.ec.dgc.verifier.exception;
 
 public class BadRequestException extends RuntimeException {
     public int getStatus() {
-        return status;
+        return STATUS;
     }
 
-    private static final int status = 400;
+    private static final int STATUS = 400;
 
 
     /**

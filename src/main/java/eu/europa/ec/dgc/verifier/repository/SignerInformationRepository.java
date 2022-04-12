@@ -22,7 +22,6 @@ package eu.europa.ec.dgc.verifier.repository;
 
 
 import eu.europa.ec.dgc.verifier.entity.SignerInformationEntity;
-import eu.europa.ec.dgc.verifier.restapi.dto.KidDto;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
