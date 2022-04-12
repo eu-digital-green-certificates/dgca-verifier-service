@@ -46,6 +46,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -89,36 +90,36 @@ class TrustedIssuerIntegrationTest {
     @Test
     void requestTrustedIssuers() throws Exception {
         trustedIssuerTestHelper.insertTrustedIssuer(trustedIssuerTestHelper.getIssuer(1));
-        trustedIssuerTestHelper.insertTrustedIssuer(trustedIssuerTestHelper.getIssuer(2));
+
 
         mockMvc.perform(get("/trustedissuers"))
             .andExpect(status().isOk())
-            .andExpect(content().json("[{\"url\":\"https://TestUrl.de\",\"type\":\"HTTP\","
-                + "\"country\":\"DE\",\"thumbprint\":\"thumbprint1\",\"sslPublicKey\":\"PublicKey1\","
-                + "\"keyStorageType\":\"JWKS\",\"signature\":\"Signature1\","
-                + "\"timestamp\":\"2022-04-04T04:21:00+02:00\",\"name\":\"example1.de\"},"
-                + "{\"url\":\"https://TestUrl2.de\",\"type\":\"HTTP\",\"country\":\"DE\","
-                + "\"thumbprint\":\"thumbprint2\",\"sslPublicKey\":\"PublicKey2\",\"keyStorageType\":\"JWKS\","
-                + "\"signature\":\"Signature2\",\"timestamp\":\"2022-04-03T05:33:00+02:00\","
-                + "\"name\":\"example2.de\"}]"));
+            .andExpect(jsonPath("$[0].url").value("https://TestUrl.de"))
+            .andExpect(jsonPath("$[0].type").value("HTTP"))
+            .andExpect(jsonPath("$[0].country").value("DE"))
+            .andExpect(jsonPath("$[0].thumbprint").value("thumbprint1"))
+            .andExpect(jsonPath("$[0].sslPublicKey").value("PublicKey1"))
+            .andExpect(jsonPath("$[0].keyStorageType").value("JWKS"))
+            .andExpect(jsonPath("$[0].signature").value("Signature1"))
+            .andExpect(jsonPath("$[0].name").value("example1.de"));
 
     }
 
     @Test
     void requestTrustedIssuersWithHeader() throws Exception {
         trustedIssuerTestHelper.insertTrustedIssuer(trustedIssuerTestHelper.getIssuer(1));
-        trustedIssuerTestHelper.insertTrustedIssuer(trustedIssuerTestHelper.getIssuer(2));
+
 
         mockMvc.perform(get("/trustedissuers").header(HttpHeaders.IF_NONE_MATCH, "NoMatchEtag"))
             .andExpect(status().isOk())
-            .andExpect(content().json("[{\"url\":\"https://TestUrl.de\",\"type\":\"HTTP\","
-                + "\"country\":\"DE\",\"thumbprint\":\"thumbprint1\",\"sslPublicKey\":\"PublicKey1\","
-                + "\"keyStorageType\":\"JWKS\",\"signature\":\"Signature1\","
-                + "\"timestamp\":\"2022-04-04T04:21:00+02:00\",\"name\":\"example1.de\"},"
-                + "{\"url\":\"https://TestUrl2.de\",\"type\":\"HTTP\",\"country\":\"DE\","
-                + "\"thumbprint\":\"thumbprint2\",\"sslPublicKey\":\"PublicKey2\",\"keyStorageType\":\"JWKS\","
-                + "\"signature\":\"Signature2\",\"timestamp\":\"2022-04-03T05:33:00+02:00\","
-                + "\"name\":\"example2.de\"}]"));
+            .andExpect(jsonPath("$[0].url").value("https://TestUrl.de"))
+            .andExpect(jsonPath("$[0].type").value("HTTP"))
+            .andExpect(jsonPath("$[0].country").value("DE"))
+            .andExpect(jsonPath("$[0].thumbprint").value("thumbprint1"))
+            .andExpect(jsonPath("$[0].sslPublicKey").value("PublicKey1"))
+            .andExpect(jsonPath("$[0].keyStorageType").value("JWKS"))
+            .andExpect(jsonPath("$[0].signature").value("Signature1"))
+            .andExpect(jsonPath("$[0].name").value("example1.de"));
 
     }
 
@@ -133,13 +134,7 @@ class TrustedIssuerIntegrationTest {
     }
 
 
-    @Test
-    void requestValidIdListFromEmptyCertificatesList() throws Exception {
-        mockMvc.perform(get("/signercertificateStatus"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(content().json("[]"));
-    }
+
 
 
 
