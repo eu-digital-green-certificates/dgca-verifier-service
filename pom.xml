@@ -31,7 +31,7 @@
     <spring.security.version>5.6.2</spring.security.version>
     <lombok.version>1.18.22</lombok.version>
     <liquibase.version>4.9.1</liquibase.version>
-    <springdoc.version>1.6.0</springdoc.version>
+    <springdoc.version>1.6.7</springdoc.version>
     <junit.version>5.8.1</junit.version>
     <pivotal.cfenv.version>2.3.0</pivotal.cfenv.version>
     <mapstruct.version>1.4.2.Final</mapstruct.version>
