@@ -57,4 +57,8 @@ public interface SignerInformationRepository extends JpaRepository<SignerInforma
     List<SignerInformationEntity> findAllByUpdatedAtAfterOrderByIdAsc(ZonedDateTime ifModifiedDateTime);
 
     List<SignerInformationEntity> findAllByKidIn(List<String> kids);
+
+    Optional<SignerInformationEntity> findFirstByIdIsNotNullAndDeletedOrderByIdAsc(boolean deleted);
+
+    Optional<SignerInformationEntity> findFirstByIdGreaterThanAndDeletedOrderByIdAsc(Long resumeToken, boolean deleted);
 }
