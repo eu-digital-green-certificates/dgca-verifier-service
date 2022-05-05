@@ -54,9 +54,9 @@ public class SignerInformationService {
      */
     public Optional<SignerInformationEntity> getCertificate(Long resumeToken) {
         if (resumeToken == null) {
-            return signerInformationRepository.findFirstByIdIsNotNullOrderByIdAsc();
+            return signerInformationRepository.findFirstByIdIsNotNullAndDeletedOrderByIdAsc(false);
         } else {
-            return signerInformationRepository.findFirstByIdGreaterThanOrderByIdAsc(resumeToken);
+            return signerInformationRepository.findFirstByIdGreaterThanAndDeletedOrderByIdAsc(resumeToken, false);
         }
     }
 
