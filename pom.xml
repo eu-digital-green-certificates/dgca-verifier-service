@@ -24,31 +24,27 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- dependencies -->
-    <owasp.version>6.5.2</owasp.version>
-    <spring.boot.version>2.6.7</spring.boot.version>
-    <spring.cloud.version>2021.0.1</spring.cloud.version>
-    <spring.test.version>5.3.19</spring.test.version>
-    <spring.security.version>5.6.2</spring.security.version>
-    <lombok.version>1.18.22</lombok.version>
-    <liquibase.version>4.9.1</liquibase.version>
-    <springdoc.version>1.6.7</springdoc.version>
-    <junit.version>5.8.1</junit.version>
-    <pivotal.cfenv.version>2.3.0</pivotal.cfenv.version>
-    <mapstruct.version>1.4.2.Final</mapstruct.version>
-    <mockito.version>4.1.0</mockito.version>
-    <bcpkix.version>1.70</bcpkix.version>
-    <okhttp.version>4.9.2</okhttp.version>
-    <shedlock.version>4.30.0</shedlock.version>
-    <dgc.lib.version>1.3.1</dgc.lib.version>
-    <h2.version>2.1.210</h2.version>
-    <sap.cloud.sdk.version>3.60.0</sap.cloud.sdk.version>
-    <slf4j.version>1.7.32</slf4j.version>
+    <owasp.version>7.3.0</owasp.version>
+    <spring.boot.version>2.7.5</spring.boot.version>
+    <spring.cloud.version>2021.0.4</spring.cloud.version>
+    <spring.test.version>5.3.23</spring.test.version>
+    <spring.security.version>5.7.5</spring.security.version>
+    <lombok.version>1.18.24</lombok.version>
+    <liquibase.version>4.17.2</liquibase.version>
+    <springdoc.version>1.6.12</springdoc.version>
+    <pivotal.cfenv.version>2.4.1</pivotal.cfenv.version>
+    <mapstruct.version>1.5.3.Final</mapstruct.version>
+    <okhttp.version>4.10.0</okhttp.version>
+    <shedlock.version>4.42.0</shedlock.version>
+    <dgc.lib.version>1.3.3</dgc.lib.version>
+    <h2.version>2.1.214</h2.version>
+    <sap.cloud.sdk.version>4.0.0</sap.cloud.sdk.version>
     <!-- plugins -->
-    <plugin.checkstyle.version>3.1.2</plugin.checkstyle.version>
-    <plugin.sonar.version>3.6.1.1688</plugin.sonar.version>
-    <plugin.jacoco.version>0.8.6</plugin.jacoco.version>
+    <plugin.checkstyle.version>3.2.0</plugin.checkstyle.version>
+    <plugin.sonar.version>3.9.1.2184</plugin.sonar.version>
+    <plugin.jacoco.version>0.8.8</plugin.jacoco.version>
     <plugin.os-maven.version>1.7.0</plugin.os-maven.version>
-    <plugin.surefire.version>3.0.0-M5</plugin.surefire.version>
+    <plugin.surefire.version>3.0.0-M7</plugin.surefire.version>
     <!-- license -->
     <license.projectName>EU Digital Green Certificate Verifier Service / dgca-verifier-service</license.projectName>
     <license.inceptionYear>2021</license.inceptionYear>
@@ -163,28 +159,12 @@
       <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.liquibase</groupId>
       <artifactId>liquibase-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-api</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-test</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -212,12 +192,6 @@
       <groupId>org.mapstruct</groupId>
       <artifactId>mapstruct</artifactId>
       <version>${mapstruct.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <version>${mockito.version}</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.springframework.security</groupId>
