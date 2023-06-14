@@ -1,17 +1,8 @@
 package eu.europa.ec.dgc.verifier.service;
 
-import eu.europa.ec.dgc.gateway.connector.DgcGatewayDownloadConnector;
-import eu.europa.ec.dgc.gateway.connector.DgcGatewayTrustedIssuerDownloadConnector;
-import eu.europa.ec.dgc.gateway.connector.model.TrustListItem;
-import eu.europa.ec.dgc.gateway.connector.model.TrustedIssuer;
-import eu.europa.ec.dgc.verifier.entity.SignerInformationEntity;
-import eu.europa.ec.dgc.verifier.entity.TrustedIssuerEntity;
-import eu.europa.ec.dgc.verifier.repository.SignerInformationRepository;
-import eu.europa.ec.dgc.verifier.repository.TrustedIssuerRepository;
-import eu.europa.ec.dgc.verifier.testdata.SignerInformationTestHelper;
-import eu.europa.ec.dgc.verifier.testdata.TrustedIssuerTestHelper;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -19,6 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.TestPropertySource;
+
+import eu.europa.ec.dgc.gateway.connector.DgcGatewayDownloadConnector;
+import eu.europa.ec.dgc.gateway.connector.DgcGatewayTrustedIssuerDownloadConnector;
+import eu.europa.ec.dgc.gateway.connector.model.TrustedIssuer;
+import eu.europa.ec.dgc.verifier.entity.TrustedIssuerEntity;
+import eu.europa.ec.dgc.verifier.repository.TrustedIssuerRepository;
+import eu.europa.ec.dgc.verifier.testdata.TrustedIssuerTestHelper;
 
 
 @SpringBootTest
