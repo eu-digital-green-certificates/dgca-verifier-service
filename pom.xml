@@ -31,7 +31,7 @@
     <spring.security.version>6.1.0</spring.security.version>
     <lombok.version>1.18.28</lombok.version>
     <liquibase.version>4.22.0</liquibase.version>
-    <springdoc.version>1.7.0</springdoc.version>
+    <springdoc.version>2.1.0</springdoc.version>
     <pivotal.cfenv.version>2.4.2</pivotal.cfenv.version>
     <mapstruct.version>1.5.5.Final</mapstruct.version>
     <okhttp.version>5.0.0-alpha.11</okhttp.version>
@@ -122,11 +122,6 @@
         <version>${lombok.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.springdoc</groupId>
-        <artifactId>springdoc-openapi-ui</artifactId>
-        <version>${springdoc.version}</version>
-      </dependency>
-      <dependency>
         <groupId>org.liquibase</groupId>
         <artifactId>liquibase-core</artifactId>
         <version>${liquibase.version}</version>
@@ -182,7 +177,7 @@
     </dependency>
     <dependency>
       <groupId>org.springdoc</groupId>
-      <artifactId>springdoc-openapi-ui</artifactId>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
       <version>${springdoc.version}</version>
     </dependency>
     <dependency>
