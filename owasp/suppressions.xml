@@ -38,4 +38,8 @@
     <notes>No fix available, still analyzed</notes>
     <cve>CVE-2023-35116</cve>
   </suppress>
+  <suppress>
+    <notes>False positive, Dependency Updated but still matches for fixed version</notes>
+    <cve>CVE-2022-45688</cve>
+  </suppress>
 </suppressions>
