@@ -63,7 +63,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ProblemReportDto> handleException(Exception e) {
         if (e instanceof ResponseStatusException) {
             return ResponseEntity
-                .status(((ResponseStatusException) e).getStatus())
+                .status(((ResponseStatusException) e).getStatusCode())
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new ProblemReportDto("co", "prob", "val", "det"));
         } else {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
@@ -17,35 +17,35 @@
 
   <properties>
     <!-- java -->
-    <java.version>11</java.version>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
+    <java.version>17</java.version>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
     <!-- charset -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- dependencies -->
-    <owasp.version>7.3.0</owasp.version>
-    <spring.boot.version>2.7.5</spring.boot.version>
-    <spring.cloud.version>2021.0.4</spring.cloud.version>
+    <owasp.version>8.3.1</owasp.version>
+    <spring.boot.version>3.0.7</spring.boot.version>
+    <spring.cloud.version>2022.0.3</spring.cloud.version>
     <spring.test.version>5.3.23</spring.test.version>
-    <spring.security.version>5.7.5</spring.security.version>
-    <lombok.version>1.18.24</lombok.version>
-    <liquibase.version>4.17.2</liquibase.version>
-    <springdoc.version>1.6.12</springdoc.version>
-    <pivotal.cfenv.version>2.4.1</pivotal.cfenv.version>
-    <mapstruct.version>1.5.3.Final</mapstruct.version>
-    <okhttp.version>4.10.0</okhttp.version>
-    <shedlock.version>4.42.0</shedlock.version>
-    <dgc.lib.version>1.3.3</dgc.lib.version>
+    <spring.security.version>6.1.0</spring.security.version>
+    <lombok.version>1.18.28</lombok.version>
+    <liquibase.version>4.22.0</liquibase.version>
+    <springdoc.version>2.1.0</springdoc.version>
+    <pivotal.cfenv.version>2.4.2</pivotal.cfenv.version>
+    <mapstruct.version>1.5.5.Final</mapstruct.version>
+    <okhttp.version>5.0.0-alpha.11</okhttp.version>
+    <shedlock.version>5.4.0</shedlock.version>
+    <dgc.lib.version>2.0.2</dgc.lib.version>
     <h2.version>2.1.214</h2.version>
-    <sap.cloud.sdk.version>4.0.0</sap.cloud.sdk.version>
-    <sap.cloud.logging.version>3.6.3</sap.cloud.logging.version>
+    <sap.cloud.sdk.version>4.15.0</sap.cloud.sdk.version>
+    <sap.cloud.logging.version>3.7.0</sap.cloud.logging.version>
     <!-- plugins -->
-    <plugin.checkstyle.version>3.2.0</plugin.checkstyle.version>
+    <plugin.checkstyle.version>3.3.0</plugin.checkstyle.version>
     <plugin.sonar.version>3.9.1.2184</plugin.sonar.version>
-    <plugin.jacoco.version>0.8.8</plugin.jacoco.version>
+    <plugin.jacoco.version>0.8.10</plugin.jacoco.version>
     <plugin.os-maven.version>1.7.0</plugin.os-maven.version>
-    <plugin.surefire.version>3.0.0-M7</plugin.surefire.version>
+    <plugin.surefire.version>3.1.2</plugin.surefire.version>
     <!-- license -->
     <license.projectName>EU Digital Green Certificate Verifier Service / dgca-verifier-service</license.projectName>
     <license.inceptionYear>2021</license.inceptionYear>
@@ -94,6 +94,64 @@
 
   <dependencyManagement>
     <dependencies>
+      <!-- External Override -->
+      <!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
+      <dependency>
+        <groupId>org.yaml</groupId>
+        <artifactId>snakeyaml</artifactId>
+        <version>2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.15.2</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-core</artifactId>
+        <version>2.15.2</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.datatype</groupId>
+        <artifactId>jackson-datatype-jsr310</artifactId>
+        <version>2.15.2</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-annotations</artifactId>
+        <version>2.15.2</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.jr</groupId>
+        <artifactId>jackson-jr-objects</artifactId>
+        <version>2.15.2</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.datatype</groupId>
+        <artifactId>jackson-datatype-jdk8</artifactId>
+        <version>2.15.2</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.module</groupId>
+        <artifactId>jackson-module-parameter-names</artifactId>
+        <version>2.15.2</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.dataformat</groupId>
+        <artifactId>jackson-dataformat-yaml</artifactId>
+        <version>2.15.2</version>
+      </dependency>
+      <dependency>
+        <groupId>org.json</groupId>
+        <artifactId>json</artifactId>
+        <version>20230618</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>32.0.1-jre</version>
+      </dependency>
+
       <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
@@ -112,11 +170,6 @@
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
         <version>${lombok.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.springdoc</groupId>
-        <artifactId>springdoc-openapi-ui</artifactId>
-        <version>${springdoc.version}</version>
       </dependency>
       <dependency>
         <groupId>org.liquibase</groupId>
@@ -174,7 +227,7 @@
     </dependency>
     <dependency>
       <groupId>org.springdoc</groupId>
-      <artifactId>springdoc-openapi-ui</artifactId>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
       <version>${springdoc.version}</version>
     </dependency>
     <dependency>
@@ -239,7 +292,7 @@
     <dependency>
       <groupId>com.google.code.bean-matchers</groupId>
       <artifactId>bean-matchers</artifactId>
-      <version>0.13</version>
+      <version>0.14</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

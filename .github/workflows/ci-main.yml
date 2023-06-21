@@ -2,59 +2,59 @@ name: ci-main
 on:
   push:
     branches:
-    - main
+      - main
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
-    - uses: actions/setup-java@v2
-      with:
-        java-version: 11
-        distribution: adopt
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - uses: actions/cache@v2
-      with:
-        path: |
-          ~/.m2/repository
-        key: ${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
-    - name: version
-      run: |-
-        APP_SHA=$(git rev-parse --short ${GITHUB_SHA})
-        APP_LATEST_REV=$(git rev-list --tags --max-count=1)
-        APP_LATEST_TAG=$(git describe --tags ${APP_LATEST_REV} 2> /dev/null || echo 0.0.0)
-        echo "APP_VERSION=${APP_LATEST_TAG}-${APP_SHA}" >> ${GITHUB_ENV}
-    - name: copyContext
-      run: |-
-        rm ./src/main/resources/static/context.json
-        echo '${{ secrets.CONTEXT_FILE }}' > ./src/main/resources/static/context.json
-    - name: mvn
-      run: |-
-        mvn versions:set \
-        --batch-mode \
-        --file ./pom.xml \
-        --settings ./settings.xml \
-        --define newVersion="${APP_VERSION}"
-        mvn clean verify \
-        --batch-mode \
-        --file ./pom.xml \
-        --settings ./settings.xml \
-        --define app.packages.username="${APP_PACKAGES_USERNAME}" \
-        --define app.packages.password="${APP_PACKAGES_PASSWORD}"
-      env:
-        APP_PACKAGES_USERNAME: ${{ github.actor }}
-        APP_PACKAGES_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-    - name: docker
-      run: |-
-        echo "${APP_PACKAGES_PASSWORD}" | docker login "${APP_PACKAGES_URL}" \
-        --username "${APP_PACKAGES_USERNAME}" \
-        --password-stdin
-        docker build . \
-        --file ./Dockerfile \
-        --tag "${APP_PACKAGES_URL}:${APP_VERSION}"
-        docker push "${APP_PACKAGES_URL}:${APP_VERSION}"
-      env:
-        APP_PACKAGES_URL: docker.pkg.github.com/${{ github.repository }}/dgca-verifier-service
-        APP_PACKAGES_USERNAME: ${{ github.actor }}
-        APP_PACKAGES_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-java@v2
+        with:
+          java-version: 17
+          distribution: adopt
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.m2/repository
+          key: ${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
+      - name: version
+        run: |-
+          APP_SHA=$(git rev-parse --short ${GITHUB_SHA})
+          APP_LATEST_REV=$(git rev-list --tags --max-count=1)
+          APP_LATEST_TAG=$(git describe --tags ${APP_LATEST_REV} 2> /dev/null || echo 0.0.0)
+          echo "APP_VERSION=${APP_LATEST_TAG}-${APP_SHA}" >> ${GITHUB_ENV}
+      - name: copyContext
+        run: |-
+          rm ./src/main/resources/static/context.json
+          echo '${{ secrets.CONTEXT_FILE }}' > ./src/main/resources/static/context.json
+      - name: mvn
+        run: |-
+          mvn versions:set \
+          --batch-mode \
+          --file ./pom.xml \
+          --settings ./settings.xml \
+          --define newVersion="${APP_VERSION}"
+          mvn clean verify \
+          --batch-mode \
+          --file ./pom.xml \
+          --settings ./settings.xml \
+          --define app.packages.username="${APP_PACKAGES_USERNAME}" \
+          --define app.packages.password="${APP_PACKAGES_PASSWORD}"
+        env:
+          APP_PACKAGES_USERNAME: ${{ github.actor }}
+          APP_PACKAGES_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+      - name: docker
+        run: |-
+          echo "${APP_PACKAGES_PASSWORD}" | docker login "${APP_PACKAGES_URL}" \
+          --username "${APP_PACKAGES_USERNAME}" \
+          --password-stdin
+          docker build . \
+          --file ./Dockerfile \
+          --tag "${APP_PACKAGES_URL}:${APP_VERSION}"
+          docker push "${APP_PACKAGES_URL}:${APP_VERSION}"
+        env:
+          APP_PACKAGES_URL: docker.pkg.github.com/${{ github.repository }}/dgca-verifier-service
+          APP_PACKAGES_USERNAME: ${{ github.actor }}
+          APP_PACKAGES_PASSWORD: ${{ secrets.GITHUB_TOKEN }}

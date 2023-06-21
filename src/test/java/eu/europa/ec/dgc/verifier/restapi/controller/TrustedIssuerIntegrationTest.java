@@ -20,17 +20,11 @@
 
 package eu.europa.ec.dgc.verifier.restapi.controller;
 
-import eu.europa.ec.dgc.gateway.connector.DgcGatewayDownloadConnector;
-import eu.europa.ec.dgc.verifier.entity.TrustedIssuerEntity;
-import eu.europa.ec.dgc.verifier.repository.SignerInformationRepository;
-import eu.europa.ec.dgc.verifier.repository.TrustedIssuerRepository;
-import eu.europa.ec.dgc.verifier.service.InfoService;
-import eu.europa.ec.dgc.verifier.testdata.SignerInformationTestHelper;
-import eu.europa.ec.dgc.verifier.testdata.TrustedIssuerTestHelper;
-import java.io.UnsupportedEncodingException;
-import java.time.ZonedDateTime;
-import java.util.List;
-import org.junit.jupiter.api.Assertions;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,23 +32,16 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import eu.europa.ec.dgc.gateway.connector.DgcGatewayDownloadConnector;
+import eu.europa.ec.dgc.verifier.repository.TrustedIssuerRepository;
+import eu.europa.ec.dgc.verifier.service.InfoService;
+import eu.europa.ec.dgc.verifier.testdata.TrustedIssuerTestHelper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 class TrustedIssuerIntegrationTest {
-
-    private static final String X_RESUME_TOKEN_HEADER = "X-RESUME-TOKEN";
-    private static final String X_KID_HEADER = "X-KID";
 
     @MockBean
     DgcGatewayDownloadConnector dgcGatewayDownloadConnector;

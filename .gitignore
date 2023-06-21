@@ -46,3 +46,4 @@ build/
 .DS_STORE
 
 .settings.xml
+pom.xml.versionsBackup

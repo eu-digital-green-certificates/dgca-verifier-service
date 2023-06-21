@@ -20,26 +20,17 @@
 
 package eu.europa.ec.dgc.verifier.testdata;
 
-import eu.europa.ec.dgc.gateway.connector.model.TrustListItem;
-import eu.europa.ec.dgc.gateway.connector.model.TrustedIssuer;
-import eu.europa.ec.dgc.utils.CertificateUtils;
-import eu.europa.ec.dgc.verifier.entity.SignerInformationEntity;
-import eu.europa.ec.dgc.verifier.entity.TrustedIssuerEntity;
-import eu.europa.ec.dgc.verifier.repository.SignerInformationRepository;
-import eu.europa.ec.dgc.verifier.repository.TrustedIssuerRepository;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.net.URLStreamHandler;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import eu.europa.ec.dgc.gateway.connector.model.TrustedIssuer;
+import eu.europa.ec.dgc.verifier.entity.TrustedIssuerEntity;
+import eu.europa.ec.dgc.verifier.repository.TrustedIssuerRepository;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
