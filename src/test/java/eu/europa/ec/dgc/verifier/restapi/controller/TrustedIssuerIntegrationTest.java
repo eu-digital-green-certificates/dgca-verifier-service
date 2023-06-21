@@ -43,9 +43,6 @@ import eu.europa.ec.dgc.verifier.testdata.TrustedIssuerTestHelper;
 @AutoConfigureMockMvc
 class TrustedIssuerIntegrationTest {
 
-    // private static final String X_RESUME_TOKEN_HEADER = "X-RESUME-TOKEN";
-    // private static final String X_KID_HEADER = "X-KID";
-
     @MockBean
     DgcGatewayDownloadConnector dgcGatewayDownloadConnector;
 
