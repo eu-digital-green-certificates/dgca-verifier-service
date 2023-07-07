@@ -37,7 +37,7 @@
     <okhttp.version>5.0.0-alpha.11</okhttp.version>
     <shedlock.version>5.4.0</shedlock.version>
     <dgc.lib.version>2.0.2</dgc.lib.version>
-    <h2.version>2.1.214</h2.version>
+    <h2.version>2.2.220</h2.version>
     <sap.cloud.sdk.version>4.15.0</sap.cloud.sdk.version>
     <sap.cloud.logging.version>3.7.0</sap.cloud.logging.version>
     <!-- plugins -->
