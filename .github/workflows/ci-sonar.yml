@@ -1,5 +1,6 @@
 name: ci-sonar
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
